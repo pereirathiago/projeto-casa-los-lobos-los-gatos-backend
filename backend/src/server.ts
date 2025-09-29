@@ -1,7 +1,8 @@
+import 'reflect-metadata'
 import app from './app'
+import { config } from './config'
 
-const PORT = Number(process.env.PORT) || 3333
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`)
+app.listen(config.server.port, '0.0.0.0', () => {
+  console.log(`Server is running on port ${config.server.port}`)
+  console.log(`Environment: ${config.server.nodeEnv}`)
 })
