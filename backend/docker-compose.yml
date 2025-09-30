@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres
+    container_name: database_casa_los_lobos_los_gatos
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=casa_los_lobos_los_gatos_db
+    volumes:
+      - pgdata:/data/postgres
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
