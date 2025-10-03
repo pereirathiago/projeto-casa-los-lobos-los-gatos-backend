@@ -6,6 +6,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('name', 255).notNullable()
     table.string('email', 255).notNullable().unique()
     table.string('password', 255).notNullable()
+    table.enum('role', ['user', 'admin']).notNullable().defaultTo('user')
     table.boolean('active').notNullable().defaultTo(true)
     table.timestamps(true, true)
   })

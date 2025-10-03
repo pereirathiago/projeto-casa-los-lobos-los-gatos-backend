@@ -14,6 +14,13 @@ interface Config {
     user: string
     password: string
   }
+  auth: {
+    secret_token: string
+    expires_in_token: string
+    secret_refreshToken: string
+    expires_in_refreshToken: string
+    expires_refreshToken_days: number
+  }
 }
 
 function getEnvVar(key: string): string {
@@ -56,9 +63,18 @@ const databaseConfig: Config['database'] = {
   password: getEnvVar('DB_PASSWORD'),
 }
 
+const authConfig: Config['auth'] = {
+  secret_token: getEnvVar('JWT_SECRET_TOKEN'),
+  expires_in_token: getEnvVar('JWT_EXPIRES_IN') || '480m',
+  secret_refreshToken: getEnvVar('JWT_SECRET_REFRESH_TOKEN'),
+  expires_in_refreshToken: getEnvVar('JWT_REFRESH_EXPIRES_IN') || '30d',
+  expires_refreshToken_days: Number(getEnvVar('JWT_REFRESH_EXPIRES_DAYS') || '30'),
+}
+
 export const config: Config = {
   server: serverConfig,
   database: databaseConfig,
+  auth: authConfig,
 }
 
 export default config
