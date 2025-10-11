@@ -1,0 +1,331 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Projeto Casa Los Lobos & Los Gatos",
+    "description": "API desenvolvida durante a disciplina de Projeto 2 do curso de Análise e Desenvolvimento de Sistemas da UTFPR para o projeto Casa Los Lobos & Los Gatos",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Thiago Pereira",
+      "email": "pereira.tp.thiago@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "Servidor local"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "HelloWorldResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["admin", "user"]
+              }
+            }
+          },
+          "token": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": ["refreshToken"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/hello-world": {
+      "get": {
+        "summary": "Hello World",
+        "description": "Essa rota retorna um simples 'Hello World' para testar.",
+        "tags": ["Test"],
+        "responses": {
+          "200": {
+            "description": "Salve dado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelloWorldResponse"
+                },
+                "example": {
+                  "message": "Hello World"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Essa rota é a boa pra fazer o login e receber o token jwt.",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              },
+              "examples": {
+                "requestLoginAdmin": {
+                  "summary": "Login usuario Admin",
+                  "value": {
+                    "email": "admin@test.com",
+                    "password": "admin123"
+                  }
+                },
+                "requestLoginSponsor": {
+                  "summary": "Login usuario Padrinho",
+                  "value": {
+                    "email": "user@test.com",
+                    "password": "user123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                },
+                "examples": {
+                  "loginAdmin": {
+                    "summary": "Login usuario Admin",
+                    "value": {
+                      "user": {
+                        "id": "98d49f16-06ce-404b-96b4-937df7b4faf8",
+                        "name": "Admin User",
+                        "email": "admin@test.com",
+                        "role": "admin"
+                      },
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  },
+                  "loginSponsor": {
+                    "summary": "Login usuario Padrinho",
+                    "value": {
+                      "user": {
+                        "id": "a2a42295-5b06-4479-9fc7-7156ecaf8010",
+                        "name": "Regular User",
+                        "email": "user@test.com",
+                        "role": "user"
+                      },
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Credenciais inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "InvalidCredentials": {
+                    "summary": "Credenciais inválidas",
+                    "value": {
+                      "error": "Email or password incorrect"
+                    }
+                  },
+                  "InactiveUser": {
+                    "summary": "Usuário inativo",
+                    "value": {
+                      "error": "User account is inactive"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "description": "Essa rota é a para deslogar e invalidar o refresh token.",
+        "tags": ["Auth"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              },
+              "example": {
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logout bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "User logged out successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Token inválido ou ausente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "InvalidToken": {
+                    "summary": "Token inválido",
+                    "value": {
+                      "error": "Invalid refresh token"
+                    }
+                  },
+                  "MissingToken": {
+                    "summary": "Token ausente",
+                    "value": {
+                      "error": "Token not provided"
+                    }
+                  },
+                  "Unauthorized": {
+                    "summary": "Não autorizado",
+                    "value": {
+                      "error": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
