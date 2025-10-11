@@ -16,6 +16,13 @@
     }
   ],
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "HelloWorldResponse": {
         "type": "object",
@@ -66,6 +73,15 @@
             "type": "string"
           }
         }
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": ["refreshToken"]
       },
       "ErrorResponse": {
         "type": "object",
@@ -134,7 +150,7 @@
                   }
                 },
                 "requestLoginSponsor": {
-                  "summary": "Login usuario Sponsor",
+                  "summary": "Login usuario Padrinho",
                   "value": {
                     "email": "user@test.com",
                     "password": "user123"
@@ -167,7 +183,7 @@
                     }
                   },
                   "loginSponsor": {
-                    "summary": "Login usuario Admin",
+                    "summary": "Login usuario Padrinho",
                     "value": {
                       "user": {
                         "id": "a2a42295-5b06-4479-9fc7-7156ecaf8010",
@@ -208,6 +224,94 @@
             }
           },
           "400": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "description": "Essa rota é a para deslogar e invalidar o refresh token.",
+        "tags": ["Auth"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              },
+              "example": {
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logout bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "User logged out successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Token inválido ou ausente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "InvalidToken": {
+                    "summary": "Token inválido",
+                    "value": {
+                      "error": "Invalid refresh token"
+                    }
+                  },
+                  "MissingToken": {
+                    "summary": "Token ausente",
+                    "value": {
+                      "error": "Token not provided"
+                    }
+                  },
+                  "Unauthorized": {
+                    "summary": "Não autorizado",
+                    "value": {
+                      "error": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
             "description": "Erro interno do servidor",
             "content": {
               "application/json": {
