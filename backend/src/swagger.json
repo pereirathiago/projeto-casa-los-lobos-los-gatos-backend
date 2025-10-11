@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Projeto Casa Los Lobos & Los Gatos",
+    "description": "API desenvolvida durante a disciplina de Projeto 2 do curso de Análise e Desenvolvimento de Sistemas da UTFPR para o projeto Casa Los Lobos & Los Gatos",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Thiago Pereira",
+      "email": "pereira.tp.thiago@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "Servidor local"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "HelloWorldResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/hello-world": {
+      "get": {
+        "summary": "Hello World",
+        "description": "Essa rota retorna um simples 'Hello World' para testar.",
+        "tags": ["Test"],
+        "responses": {
+          "200": {
+            "description": "Salve dado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelloWorldResponse"
+                },
+                "example": {
+                  "message": "Hello World"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
