@@ -1,24 +1,48 @@
 {
-  "name": "projeto-casa-los-lobos-los-gatos",
+  "name": "backend-casa-los-lobos-los-gatos",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:pereirathiago/projeto-casa-los-lobos-los-gatos.git",
-  "author": "Thiago Pereira <pereira.tp.thiago@gmail.com>",
+  "description": "Backend do projeto desenvolvido para Casa Los Lobos e Los Gatos",
+  "main": "src/server.ts",
   "license": "MIT",
-  "devDependencies": {
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.3"
-  },
   "scripts": {
-    "prepare": "husky"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback",
+    "migrate:make": "knex migrate:make",
+    "seed:run": "knex seed:run",
+    "seed:make": "knex seed:make",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
   },
-  "lint-staged": {
-    "frontend/**/*.{js,jsx,ts,tsx,css}": [
-      "sh -c 'cd frontend && yarn format'",
-      "sh -c 'cd frontend && yarn lint'"
-    ],
-    "backend/**/*.{js,ts,json}": [
-      "sh -c 'cd backend && yarn format'"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pereirathiago/projeto-casa-los-lobos-los-gatos"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "swagger-ui-express": "^5.0.1",
+    "tsyringe": "^4.10.0",
+    "yup": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.3.1",
+    "@types/pg": "^8.15.5",
+    "@types/swagger-ui-express": "^4.1.8",
+    "prettier": "3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
   }
 }
