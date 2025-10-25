@@ -1,11 +1,11 @@
-import 'reflect-metadata'
-import './container'
-import express from 'express'
 import cors from 'cors'
-import router from './router'
-import { errorHandler } from './middlewares/errorHandler'
+import express from 'express'
+import 'reflect-metadata'
 import swaggerUi from 'swagger-ui-express'
-import swaggerDocs from './swagger.json'
+import './container/index.js'
+import { errorHandler } from './middlewares/errorHandler.js'
+import router from './router/index.js'
+import swaggerDocs from './swagger.json' with { type: 'json' }
 
 const app = express()
 

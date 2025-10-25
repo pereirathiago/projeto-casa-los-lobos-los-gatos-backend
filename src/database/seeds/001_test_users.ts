@@ -1,11 +1,7 @@
-import { Knex } from 'knex'
 import { hash } from 'bcrypt'
+import type { Knex } from 'knex'
 
 export async function seed(knex: Knex): Promise<void> {
-  // Deletes ALL existing entries in users table
-  await knex('users').del()
-
-  // Hash passwords for the test users
   const adminPassword = await hash('admin123', 8)
   const userPassword = await hash('user123', 8)
 

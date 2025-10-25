@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { container } from '../container'
-import { AuthenticateUserController } from '../controllers/AuthenticateUserController'
-import { LogoutUserController } from '../controllers/LogoutUserController'
-import { RegisterUserController } from '../controllers/RegisterUserController'
-import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
+import { container } from '../container/index.js'
+import { AuthenticateUserController } from '../controllers/AuthenticateUserController.js'
+import { LogoutUserController } from '../controllers/LogoutUserController.js'
+import { RegisterUserController } from '../controllers/RegisterUserController.js'
+import { ensureAuthenticated } from '../middlewares/ensureAuthenticated.js'
 
 const router = Router()
 

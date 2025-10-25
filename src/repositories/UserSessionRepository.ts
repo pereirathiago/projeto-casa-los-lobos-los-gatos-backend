@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe'
-import { db } from '../database/connection'
-import { UserSessionModel, CreateUserSessionModel, UpdateUserSessionModel } from '../models/UserSessionModel'
+import { db } from '../database/connection.js'
+import { CreateUserSessionModel, UpdateUserSessionModel, UserSessionModel } from '../models/UserSessionModel.js'
 
 export interface IUserSessionRepository {
   findById(id: string): Promise<UserSessionModel | null>

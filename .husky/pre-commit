@@ -1,3 +1,4 @@
 # .husky/pre-commit
 
+echo "Formatando arquivos modificados..."
 npx lint-staged

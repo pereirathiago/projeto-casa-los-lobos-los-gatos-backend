@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express'
-import { verify } from 'jsonwebtoken'
+import config from '@config/index.js'
+import { AppError } from '@shared/errors/AppError.js'
+import { NextFunction, Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { container } from 'tsyringe'
-import { IUserRepository } from '../repositories/UserRepository'
-import { AppError } from '../shared/errors/AppError'
-import { config } from '../config'
+import { IUserRepository } from '../repositories/UserRepository.js'
 
 interface IPayload {
   sub: string
@@ -12,6 +12,7 @@ interface IPayload {
 export async function ensureAuthenticated(request: Request, response: Response, next: NextFunction): Promise<void> {
   try {
     const authHeader = request.headers.authorization
+    const { verify } = jwt
 
     if (!authHeader) {
       throw new AppError('Token missing!', 401)

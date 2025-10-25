@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { injectable, inject } from 'tsyringe'
-import { IHelloWorldRepository } from '../repositories/HelloWorldRepository'
+import { inject, injectable } from 'tsyringe'
+import { IHelloWorldRepository } from '../repositories/HelloWorldRepository.js'
 
 @injectable()
 export class HelloWorldController {

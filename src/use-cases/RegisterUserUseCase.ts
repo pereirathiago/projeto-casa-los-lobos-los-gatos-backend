@@ -1,8 +1,8 @@
+import { AppError } from '@shared/errors/AppError.js'
 import { hash } from 'bcrypt'
 import { inject, injectable } from 'tsyringe'
-import { IUserRepository } from '../repositories/UserRepository'
-import { AppError } from '../shared/errors/AppError'
-import { IRegisterUserDTO, IRegisterUserResponse } from '../interfaces/register'
+import { IRegisterUserDTO, IRegisterUserResponse } from '../interfaces/register.js'
+import { IUserRepository } from '../repositories/UserRepository.js'
 
 @injectable()
 export class RegisterUserUseCase {

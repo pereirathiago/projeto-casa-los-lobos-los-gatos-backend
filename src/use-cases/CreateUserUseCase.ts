@@ -1,8 +1,8 @@
+import { AppError } from '@shared/errors/AppError.js'
 import { hash } from 'bcrypt'
 import { inject, injectable } from 'tsyringe'
-import { IUserRepository } from '../repositories/UserRepository'
-import { AppError } from '../shared/errors/AppError'
-import { CreateUserModel, UserModel } from '../models/UserModel'
+import { CreateUserModel, UserModel } from '../models/UserModel.js'
+import { IUserRepository } from '../repositories/UserRepository.js'
 
 interface ICreateUserRequest extends CreateUserModel {}
 

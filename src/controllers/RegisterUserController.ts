@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { RegisterUserUseCase } from '../use-cases/RegisterUserUseCase'
-import { IRegisterUserDTO } from '../interfaces/register'
+import { IRegisterUserDTO } from '../interfaces/register.js'
+import { RegisterUserUseCase } from '../use-cases/RegisterUserUseCase.js'
 
 export class RegisterUserController {
   async handle(req: Request, res: Response): Promise<Response> {

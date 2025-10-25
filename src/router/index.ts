@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import helloWorldRoutes from './hellowWorldRoues'
-import authRoutes from './authRoutes'
+import authRoutes from './authRoutes.js'
+import helloWorldRoutes from './hellowWorldRoues.js'
 
 const router = Router()
 

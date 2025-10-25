@@ -1,7 +1,7 @@
 import { container } from 'tsyringe'
-import { HelloWorldRepository, IHelloWorldRepository } from '../repositories/HelloWorldRepository'
-import { UserRepository, IUserRepository } from '../repositories/UserRepository'
-import { UserSessionRepository, IUserSessionRepository } from '../repositories/UserSessionRepository'
+import { HelloWorldRepository, IHelloWorldRepository } from '../repositories/HelloWorldRepository.js'
+import { IUserRepository, UserRepository } from '../repositories/UserRepository.js'
+import { IUserSessionRepository, UserSessionRepository } from '../repositories/UserSessionRepository.js'
 
 // Register HelloWorld dependencies
 container.register<IHelloWorldRepository>('HelloWorldRepository', HelloWorldRepository)

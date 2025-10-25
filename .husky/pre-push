@@ -1,0 +1,4 @@
+# .husky/pre-push
+
+echo "Verificando tipos TypeScript..."
+yarn check-types

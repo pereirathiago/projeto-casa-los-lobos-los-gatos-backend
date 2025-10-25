@@ -3,24 +3,31 @@
     "target": "es2022",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
-    "baseUrl": "./src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "types": ["express", "node"],
-    "typeRoots": ["./src/@types", "./custom_typings", "./@types", "./node_modules/@types"],
+    "typeRoots": ["./src/@types", "./@types", "./node_modules/@types"],
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
     "strict": false,
     "paths": {
-      "@modules/*": ["modules/*"],
-      "@config/*": ["src/config/*"],
-      "@shared/*": ["src/shared/*"],
-      "@errors/*": ["errors/*"],
-      "@utils/*": ["utils/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@config/*": ["./src/config/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@errors/*": ["./src/errors/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src/**/*", "src/@types"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "esm": true,
+    "require": ["tsconfig-paths/register"]
+  }
 }

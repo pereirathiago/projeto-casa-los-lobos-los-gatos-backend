@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe'
-import { IUserSessionRepository } from '../repositories/UserSessionRepository'
-import { AppError } from '../shared/errors/AppError'
-import { ILogoutUserRequest } from '../interfaces/auth'
+import { IUserSessionRepository } from '../repositories/UserSessionRepository.js'
+import { ILogoutUserRequest } from '../interfaces/auth.js'
+import { AppError } from '@shared/errors/AppError.js'
 
 @injectable()
 export class LogoutUserUseCase {

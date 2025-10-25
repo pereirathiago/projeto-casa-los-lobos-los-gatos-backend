@@ -1,5 +1,5 @@
-import { knex as setupKnex, Knex } from 'knex'
-import { config } from '../config'
+import setupKnex, { type Knex } from 'knex'
+import { config } from '../config/index.js'
 
 const dbConfig: Knex.Config = {
   client: 'postgresql',

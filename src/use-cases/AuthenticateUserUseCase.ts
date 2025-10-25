@@ -1,11 +1,11 @@
+import config from '@config/index.js'
+import { AppError } from '@shared/errors/AppError.js'
 import { compare } from 'bcrypt'
-import { sign, SignOptions } from 'jsonwebtoken'
+import jwt, { SignOptions } from 'jsonwebtoken'
 import { inject, injectable } from 'tsyringe'
-import { IUserRepository } from '../repositories/UserRepository'
-import { IUserSessionRepository } from '../repositories/UserSessionRepository'
-import { AppError } from '../shared/errors/AppError'
-import { config } from '../config'
-import { IAuthenticateUserRequest, IAuthenticateUserResponse } from '../interfaces/auth'
+import { IAuthenticateUserRequest, IAuthenticateUserResponse } from '../interfaces/auth.js'
+import { IUserRepository } from '../repositories/UserRepository.js'
+import { IUserSessionRepository } from '../repositories/UserSessionRepository.js'
 
 @injectable()
 export class AuthenticateUserUseCase {
@@ -18,6 +18,8 @@ export class AuthenticateUserUseCase {
 
   async execute({ email, password }: IAuthenticateUserRequest): Promise<IAuthenticateUserResponse> {
     const user = await this.userRepository.findByEmail(email)
+
+    const { sign } = jwt
 
     if (!user) {
       throw new AppError('Email or password incorrect!', 401)

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { LogoutUserUseCase } from '../use-cases/LogoutUserUseCase'
+import { LogoutUserUseCase } from '../use-cases/LogoutUserUseCase.js'
 
 export class LogoutUserController {
   async handle(request: Request, response: Response): Promise<Response> {

@@ -1,4 +1,4 @@
-import { HelloWorldModel } from '../models/HelloWorldModel'
+import { HelloWorldModel } from '../models/HelloWorldModel.js'
 import { injectable } from 'tsyringe'
 
 export interface IHelloWorldRepository {
