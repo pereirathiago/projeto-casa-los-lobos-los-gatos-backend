@@ -7,6 +7,7 @@
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": "./src",
     "types": ["express", "node"],
     "typeRoots": ["./src/@types", "./@types", "./node_modules/@types"],
     "resolveJsonModule": true,
@@ -17,11 +18,12 @@
     "noEmit": true,
     "strict": false,
     "paths": {
-      "@modules/*": ["./src/modules/*"],
-      "@config/*": ["./src/config/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@errors/*": ["./src/errors/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@src/*": ["./*"],
+      "@modules/*": ["modules/*"],
+      "@config/*": ["config/*"],
+      "@shared/*": ["shared/*"],
+      "@utils/*": ["utils/*"],
+      "@errors/*": ["shared/errors/*"]
     }
   },
   "include": ["src/**/*", "src/@types"],
