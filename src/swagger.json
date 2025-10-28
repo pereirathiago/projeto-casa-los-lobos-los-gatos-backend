@@ -83,6 +83,54 @@
         },
         "required": ["refreshToken"]
       },
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6
+          }
+        },
+        "required": ["name", "email", "password"]
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["user"]
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
@@ -224,6 +272,106 @@
             }
           },
           "400": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Cadastro de Usuário (Padrinho)",
+        "description": "Essa rota é pública e permite que novos usuários (padrinhos) se cadastrem na plataforma. Todos os usuários criados através desta rota recebem automaticamente a role 'user'.",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              },
+              "example": {
+                "name": "João Silva",
+                "email": "joao@example.com",
+                "password": "senha123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                },
+                "example": {
+                  "message": "User registered successfully!",
+                  "user": {
+                    "id": "a2a42295-5b06-4479-9fc7-7156ecaf8010",
+                    "name": "João Silva",
+                    "email": "joao@example.com",
+                    "role": "user",
+                    "created_at": "2025-10-21T15:30:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Dados inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "MissingFields": {
+                    "summary": "Campos obrigatórios faltando",
+                    "value": {
+                      "error": "Name, email and password are required!"
+                    }
+                  },
+                  "InvalidEmail": {
+                    "summary": "E-mail com formato inválido",
+                    "value": {
+                      "error": "Invalid email format!"
+                    }
+                  },
+                  "ShortPassword": {
+                    "summary": "Senha muito curta",
+                    "value": {
+                      "error": "Password must be at least 6 characters long!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - E-mail já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Email already in use!"
+                }
+              }
+            }
+          },
+          "500": {
             "description": "Erro interno do servidor",
             "content": {
               "application/json": {
