@@ -1,56 +1,42 @@
-import { db } from '@shared/database/connection.js'
-import { injectable } from 'tsyringe'
-import { CreateUserModel, UpdateUserModel, UserModel } from '../models/UserModel.js'
-
-export interface IUserRepository {
-  findById(id: string): Promise<UserModel | null>
-  findByEmail(email: string): Promise<UserModel | null>
-  create(data: CreateUserModel): Promise<UserModel>
-  update(id: string, data: UpdateUserModel): Promise<UserModel>
-  delete(id: string): Promise<void>
-  findAll(): Promise<UserModel[]>
-}
+import { Knex } from 'knex'
+import { inject, injectable } from 'tsyringe'
+import { IRegisterUserDTO } from '../dtos/IUserDTO.js'
+import { IUserModel } from '../models/IUserModel.js'
+import { IUserRepository } from './interfaces/IUserRepository.js'
 
 @injectable()
 export class UserRepository implements IUserRepository {
-  async findById(id: string): Promise<UserModel | null> {
-    const user = await db('users').where({ id }).first()
-    return user || null
-  }
+  constructor(@inject('KnexConnection') private db: Knex) {}
 
-  async findByEmail(email: string): Promise<UserModel | null> {
-    const user = await db('users').where({ email }).first()
-    return user || null
-  }
-
-  async create(data: CreateUserModel): Promise<UserModel> {
-    const [user] = await db('users')
+  async create(userData: IRegisterUserDTO, trx?: Knex.Transaction): Promise<IUserModel> {
+    const connection = trx || this.db
+    const [user] = await connection<IUserModel>('users')
       .insert({
-        ...data,
-        role: data.role || 'user',
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        role: userData.role,
       })
       .returning('*')
 
     return user
   }
 
-  async update(id: string, data: UpdateUserModel): Promise<UserModel> {
-    const [user] = await db('users')
-      .where({ id })
-      .update({
-        ...data,
-        updated_at: db.fn.now(),
-      })
-      .returning('*')
+  async findByEmail(email: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
+    const connection = trx || this.db
+
+    const user = await connection<IUserModel>('users').where({ email }).first()
 
     return user
   }
 
-  async delete(id: string): Promise<void> {
-    await db('users').where({ id }).del()
-  }
+  async findById(id: number, trx?: Knex.Transaction): Promise<IUserModel | null> {
+    const connection = trx || this.db
 
-  async findAll(): Promise<UserModel[]> {
-    return db('users').select('*')
+    const user = await connection<IUserModel>('users').where({ id }).first()
+
+    return user
   }
 }
+
+export { IUserRepository }

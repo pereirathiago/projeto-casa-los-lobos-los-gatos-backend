@@ -30,11 +30,42 @@ export class ConflictError extends AppError {
   }
 }
 
-export class ValidationError extends AppError {
-  public readonly details: Array<{ field: string; error: string }>
+export class BadRequestError extends AppError {
+  constructor(message: string = 'Bad Request') {
+    super(message, 400)
+  }
+}
 
-  constructor(details: Array<{ field: string; error: string }>) {
-    super('Validation error', 422)
-    this.details = details
+export interface ValidationErrorDetail {
+  field: string
+  message: string
+}
+
+export class ValidationError extends AppError {
+  public readonly errors: ValidationErrorDetail[]
+
+  constructor(errors: ValidationErrorDetail[], message: string = 'Validation Error') {
+    super(message, 422)
+    this.errors = errors
+  }
+
+  static fromYup(yupError: any): ValidationError {
+    const errors: ValidationErrorDetail[] = []
+
+    if (yupError.inner && yupError.inner.length > 0) {
+      yupError.inner.forEach((err: any) => {
+        errors.push({
+          field: err.path || 'unknown',
+          message: err.message,
+        })
+      })
+    } else {
+      errors.push({
+        field: yupError.path || 'unknown',
+        message: yupError.message,
+      })
+    }
+
+    return new ValidationError(errors)
   }
 }

@@ -4,7 +4,7 @@ import helloWorldRoutes from './hellowWorldRoues.js'
 
 const router = Router()
 
+router.use('/', authRoutes)
 router.use('/hello-world', helloWorldRoutes)
-router.use('/auth', authRoutes)
 
 export default router

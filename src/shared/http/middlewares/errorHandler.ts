@@ -1,16 +1,36 @@
 import { AppError } from '@shared/errors/AppError.js'
+import { ValidationError } from '@shared/errors/http.js'
 import { NextFunction, Request, Response } from 'express'
+import * as Yup from 'yup'
 
-export function errorHandler(error: Error, request: Request, response: Response, next: NextFunction): Response {
-  if (error instanceof AppError) {
-    return response.status(error.statusCode).json({
-      error: error.message,
+export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): Response {
+  console.error('Error Handler:', {
+    message: err.message,
+    stack: err.stack,
+  })
+
+  if (err instanceof Yup.ValidationError) {
+    const validationError = ValidationError.fromYup(err)
+    return res.status(validationError.statusCode).json({
+      message: validationError.message,
+      errors: validationError.errors,
     })
   }
 
-  console.error(error)
+  if (err instanceof ValidationError) {
+    return res.status(err.statusCode).json({
+      message: err.message,
+      errors: err.errors,
+    })
+  }
 
-  return response.status(500).json({
-    error: 'Internal server error',
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      message: err.message,
+    })
+  }
+
+  return res.status(500).json({
+    message: 'Internal server error',
   })
 }

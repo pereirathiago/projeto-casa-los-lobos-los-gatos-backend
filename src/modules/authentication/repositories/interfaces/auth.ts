@@ -3,17 +3,6 @@ export interface IAuthenticateUserRequest {
   password: string
 }
 
-export interface IAuthenticateUserResponse {
-  user: {
-    id: string
-    name: string
-    email: string
-    role: string
-  }
-  token: string
-  refreshToken: string
-}
-
 export interface ILogoutUserRequest {
   userId: string
   refreshToken: string
