@@ -1,24 +1,16 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
+import { IAuthenticateUserDTO } from '../dtos/IUserSessionDTO.js'
 import { AuthenticateUserUseCase } from '../useCases/AuthenticateUserUseCase.js'
 
 export class AuthenticateUserController {
-  async handle(request: Request, response: Response): Promise<Response> {
-    try {
-      const { password, email } = request.body
+  async handle(req: Request, res: Response): Promise<Response> {
+    const data = req.body as IAuthenticateUserDTO
 
-      const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase)
+    const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase)
 
-      const result = await authenticateUserUseCase.execute({
-        password,
-        email,
-      })
+    const result = await authenticateUserUseCase.execute(data)
 
-      return response.json(result)
-    } catch (error) {
-      return response.status(400).json({
-        error: error instanceof Error ? error.message : 'Internal server error',
-      })
-    }
+    return res.status(200).json(result)
   }
 }

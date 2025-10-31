@@ -1,11 +1,12 @@
 interface IUserModel {
-  id: number
+  id: string
   name: string
   email: string
   password: string
-  role: 'sponsor' | 'admin'
-  createdAt: Date
-  updatedAt: Date
+  role: 'user' | 'admin'
+  active: boolean
+  created_at: Date
+  updated_at: Date
 }
 
 export { IUserModel }

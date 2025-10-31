@@ -5,11 +5,12 @@ import { IUserModel } from '../models/IUserModel.js'
 import { IUserRepository } from './interfaces/IUserRepository.js'
 
 @injectable()
-export class UserRepository implements IUserRepository {
+class UserRepository implements IUserRepository {
   constructor(@inject('KnexConnection') private db: Knex) {}
 
   async create(userData: IRegisterUserDTO, trx?: Knex.Transaction): Promise<IUserModel> {
     const connection = trx || this.db
+
     const [user] = await connection<IUserModel>('users')
       .insert({
         name: userData.name,
@@ -27,16 +28,16 @@ export class UserRepository implements IUserRepository {
 
     const user = await connection<IUserModel>('users').where({ email }).first()
 
-    return user
+    return user || null
   }
 
-  async findById(id: number, trx?: Knex.Transaction): Promise<IUserModel | null> {
+  async findById(id: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
     const user = await connection<IUserModel>('users').where({ id }).first()
 
-    return user
+    return user || null
   }
 }
 
-export { IUserRepository }
+export { UserRepository }

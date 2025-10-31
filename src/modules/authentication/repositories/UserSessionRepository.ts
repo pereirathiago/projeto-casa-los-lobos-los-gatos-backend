@@ -1,61 +1,75 @@
-import { db } from '@shared/database/connection.js'
-import { injectable } from 'tsyringe'
-import { CreateUserSessionModel, UpdateUserSessionModel, UserSessionModel } from '../models/UserSessionModel.js'
-
-export interface IUserSessionRepository {
-  findById(id: string): Promise<UserSessionModel | null>
-  findByRefreshToken(refreshToken: string): Promise<UserSessionModel | null>
-  findActiveByUserId(userId: string): Promise<UserSessionModel[]>
-  create(data: CreateUserSessionModel): Promise<UserSessionModel>
-  update(id: string, data: UpdateUserSessionModel): Promise<UserSessionModel>
-  delete(id: string): Promise<void>
-  deleteByUserId(userId: string): Promise<void>
-  deleteExpiredSessions(): Promise<void>
-}
+import { Knex } from 'knex'
+import { inject, injectable } from 'tsyringe'
+import { ICreateUserSessionDTO } from '../dtos/IUserSessionDTO.js'
+import { UserSessionModel } from '../models/IUserSessionModel.js'
+import { IUserSessionRepository } from './interfaces/IUserSessionRepository.js'
 
 @injectable()
-export class UserSessionRepository implements IUserSessionRepository {
-  async findById(id: string): Promise<UserSessionModel | null> {
-    const session = await db('user_sessions').where({ id }).first()
-    return session || null
-  }
+class UserSessionRepository implements IUserSessionRepository {
+  constructor(@inject('KnexConnection') private db: Knex) {}
 
-  async findByRefreshToken(refreshToken: string): Promise<UserSessionModel | null> {
-    const session = await db('user_sessions').where({ refresh_token: refreshToken, is_active: true }).first()
-    return session || null
-  }
+  async create(
+    sessionData: ICreateUserSessionDTO,
+    trx?: Knex.Transaction,
+  ): Promise<UserSessionModel> {
+    const connection = trx || this.db
 
-  async findActiveByUserId(userId: string): Promise<UserSessionModel[]> {
-    return db('user_sessions').where({ user_id: userId, is_active: true }).orderBy('created_at', 'desc')
-  }
-
-  async create(data: CreateUserSessionModel): Promise<UserSessionModel> {
-    const [session] = await db('user_sessions').insert(data).returning('*')
-
-    return session
-  }
-
-  async update(id: string, data: UpdateUserSessionModel): Promise<UserSessionModel> {
-    const [session] = await db('user_sessions')
-      .where({ id })
-      .update({
-        ...data,
-        updated_at: db.fn.now(),
+    const [session] = await connection<UserSessionModel>('user_sessions')
+      .insert({
+        user_id: sessionData.user_id,
+        refresh_token: sessionData.refresh_token,
+        expires_date: sessionData.expires_date,
       })
       .returning('*')
 
     return session
   }
 
-  async delete(id: string): Promise<void> {
-    await db('user_sessions').where({ id }).del()
+  async findByRefreshToken(
+    refreshToken: string,
+    trx?: Knex.Transaction,
+  ): Promise<UserSessionModel | null> {
+    const connection = trx || this.db
+
+    const session = await connection<UserSessionModel>('user_sessions')
+      .where({ refresh_token: refreshToken, is_active: true })
+      .first()
+
+    return session || null
   }
 
-  async deleteByUserId(userId: string): Promise<void> {
-    await db('user_sessions').where({ user_id: userId }).del()
+  async findActiveByUserId(userId: string, trx?: Knex.Transaction): Promise<UserSessionModel[]> {
+    const connection = trx || this.db
+
+    const sessions = await connection<UserSessionModel>('user_sessions')
+      .where({ user_id: userId, is_active: true })
+      .where('expires_date', '>', connection.fn.now())
+      .orderBy('created_at', 'desc')
+
+    return sessions
   }
 
-  async deleteExpiredSessions(): Promise<void> {
-    await db('user_sessions').where('expires_date', '<', db.fn.now()).orWhere('is_active', false).del()
+  async deleteByRefreshToken(refreshToken: string, trx?: Knex.Transaction): Promise<boolean> {
+    const connection = trx || this.db
+
+    const deletedCount = await connection('user_sessions')
+      .where({ refresh_token: refreshToken })
+      .del()
+
+    return deletedCount > 0
+  }
+
+  async deleteByUserId(userId: string, trx?: Knex.Transaction): Promise<void> {
+    const connection = trx || this.db
+
+    await connection('user_sessions').where({ user_id: userId }).del()
+  }
+
+  async deleteExpiredSessions(trx?: Knex.Transaction): Promise<void> {
+    const connection = trx || this.db
+
+    await connection('user_sessions').where('expires_at', '<', connection.fn.now()).del()
   }
 }
+
+export { UserSessionRepository }

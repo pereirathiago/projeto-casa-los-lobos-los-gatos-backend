@@ -3,7 +3,12 @@ import { ValidationError } from '@shared/errors/http.js'
 import { NextFunction, Request, Response } from 'express'
 import * as Yup from 'yup'
 
-export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): Response {
+export function errorHandler(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Response {
   console.error('Error Handler:', {
     message: err.message,
     stack: err.stack,

@@ -1,7 +1,7 @@
 import { AppError } from '@shared/errors/AppError.js'
 import { hash } from 'bcrypt'
 import { inject, injectable } from 'tsyringe'
-import { IUserRepository } from '../repositories/UserRepository.js'
+import { IUserRepository } from '../repositories/interfaces/IUserRepository.js'
 import { IRegisterUserDTO, IRegisterUserResponse } from '../repositories/interfaces/register.js'
 
 @injectable()

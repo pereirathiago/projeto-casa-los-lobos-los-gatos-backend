@@ -1,6 +1,6 @@
 import { config } from '@config/index.js'
 import { AppError } from '@shared/errors/AppError.js'
-import { IUserRepository } from '@src/modules/authentication/repositories/UserRepository.js'
+import { IUserRepository } from '@src/modules/authentication/repositories/interfaces/IUserRepository.js'
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { container } from 'tsyringe'
@@ -9,7 +9,11 @@ interface IPayload {
   sub: string
 }
 
-export async function ensureAuthenticated(request: Request, response: Response, next: NextFunction): Promise<void> {
+export async function ensureAuthenticated(
+  request: Request,
+  response: Response,
+  next: NextFunction,
+): Promise<void> {
   try {
     const authHeader = request.headers.authorization
     const { verify } = jwt
