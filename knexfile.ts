@@ -1,5 +1,5 @@
 import type { Knex } from 'knex'
-import { config } from './src/config'
+import { config } from './src/config/index.ts'
 
 const dbConfig: { [key: string]: Knex.Config } = {
   development: {
@@ -16,12 +16,12 @@ const dbConfig: { [key: string]: Knex.Config } = {
       max: 10,
     },
     migrations: {
-      directory: './src/database/migrations',
+      directory: './src/shared/database/migrations',
       tableName: 'knex_migrations',
       extension: 'ts',
     },
     seeds: {
-      directory: './src/database/seeds',
+      directory: './src/shared/database/seeds',
       extension: 'ts',
     },
   },
