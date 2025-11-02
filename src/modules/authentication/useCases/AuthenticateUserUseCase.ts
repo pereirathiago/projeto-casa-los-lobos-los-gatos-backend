@@ -2,6 +2,7 @@ import { config } from '@src/config/index.js'
 import { AppError } from '@src/shared/errors/AppError.js'
 import { UnauthorizedError } from '@src/shared/errors/http.js'
 import { compare } from 'bcrypt'
+import { createHash } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { inject, injectable } from 'tsyringe'
 import { IAuthenticateUserDTO, IAuthenticateUserResponse } from '../dtos/IUserSessionDTO.js'
@@ -36,45 +37,60 @@ class AuthenticateUserUseCase {
       throw new UnauthorizedError('Invalid credentials')
     }
 
-    const expiresInSeconds = this.parseExpiresIn(config.auth.expires_in_token)
-
-    const token = sign(
-      {
-        email: user.email,
-        role: user.role,
-      },
-      config.auth.secret_token,
-      {
-        subject: user.id,
-        expiresIn: expiresInSeconds,
-      },
-    )
-
     const refreshExpiresInSeconds = this.parseExpiresIn(config.auth.expires_in_refreshToken)
     const refreshExpiresDate = new Date(Date.now() + refreshExpiresInSeconds * 1000)
 
     const refreshToken = sign(
       {
         type: 'refresh',
+        email: user.email,
       },
       config.auth.secret_refreshToken,
       {
-        subject: user.id,
+        subject: user.uuid,
         expiresIn: refreshExpiresInSeconds,
       },
     )
 
-    await this.userSessionRepository.create({
+    const newSession = await this.userSessionRepository.create({
       user_id: user.id,
       refresh_token: refreshToken,
       expires_date: refreshExpiresDate,
     })
 
+    const sessionId = newSession.id
+
+    const passwordVersion = createHash('md5')
+      .update(user.uuid + user.password)
+      .digest('hex')
+
+    const parentClaim = {
+      uuid: sessionId,
+      exp: refreshExpiresDate.getTime() / 1000,
+    }
+
+    const expiresInSeconds = this.parseExpiresIn(config.auth.expires_in_token)
+
+    const token = sign(
+      {
+        email: user.email,
+        role: user.role,
+        version: passwordVersion,
+        parent: parentClaim,
+      },
+      config.auth.secret_token,
+      {
+        subject: user.uuid,
+        expiresIn: expiresInSeconds,
+      },
+    )
+
     return {
       token,
       expires_in: expiresInSeconds,
+      refreshToken: refreshToken,
       user: {
-        id: user.id,
+        id: user.uuid,
         name: user.name,
         email: user.email,
         role: user.role,

@@ -6,6 +6,7 @@ interface IAuthenticateUserDTO {
 interface IAuthenticateUserResponse {
   token: string
   expires_in: number
+  refreshToken: string
   user: {
     id: string
     name: string
@@ -15,7 +16,7 @@ interface IAuthenticateUserResponse {
 }
 
 interface ICreateUserSessionDTO {
-  user_id: string
+  user_id: number
   refresh_token: string
   expires_date: Date
 }

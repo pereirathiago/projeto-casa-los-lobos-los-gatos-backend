@@ -1,5 +1,6 @@
 interface IUserModel {
-  id: string
+  id: number
+  uuid: string
   name: string
   email: string
   password: string

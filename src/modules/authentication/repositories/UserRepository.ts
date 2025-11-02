@@ -31,10 +31,18 @@ class UserRepository implements IUserRepository {
     return user || null
   }
 
-  async findById(id: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
+  async findById(id: number, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
     const user = await connection<IUserModel>('users').where({ id }).first()
+
+    return user || null
+  }
+
+  async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
+    const connection = trx || this.db
+
+    const user = await connection<IUserModel>('users').where({ uuid }).first()
 
     return user || null
   }

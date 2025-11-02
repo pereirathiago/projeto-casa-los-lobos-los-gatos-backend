@@ -38,7 +38,7 @@ class UserSessionRepository implements IUserSessionRepository {
     return session || null
   }
 
-  async findActiveByUserId(userId: string, trx?: Knex.Transaction): Promise<UserSessionModel[]> {
+  async findActiveByUserId(userId: number, trx?: Knex.Transaction): Promise<UserSessionModel[]> {
     const connection = trx || this.db
 
     const sessions = await connection<UserSessionModel>('user_sessions')
@@ -59,7 +59,7 @@ class UserSessionRepository implements IUserSessionRepository {
     return deletedCount > 0
   }
 
-  async deleteByUserId(userId: string, trx?: Knex.Transaction): Promise<void> {
+  async deleteByUserId(userId: number, trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
     await connection('user_sessions').where({ user_id: userId }).del()
