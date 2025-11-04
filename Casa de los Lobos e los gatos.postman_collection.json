@@ -12,6 +12,9 @@
         {
           "name": "Hello World",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -37,8 +40,8 @@
                   "let response = pm.response.json();\r",
                   "\r",
                   "if (response.token) {\r",
-                  "    pm.collectionVariables.set(\"access_token\", response.token);\r",
-                  "    pm.collectionVariables.set(\"refresh_token\", response.refreshToken);\r",
+                  "    pm.collectionVariables.set(\"token\", response.token);\r",
+                  "    pm.collectionVariables.set(\"refreshToken\", response.refreshToken);\r",
                   "    console.log(\"Token salvo na variável de ambiente.\");\r",
                   "} else {\r",
                   "    console.error(\"Token não encontrado na resposta.\");\r",
@@ -67,21 +70,155 @@
               }
             },
             "url": {
-              "raw": "{{host}}/auth/login",
+              "raw": "{{host}}/login",
               "host": ["{{host}}"],
-              "path": ["auth", "login"]
+              "path": ["login"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Login Admin",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"admin@test.com\",\r\n    \"password\": \"admin123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/auth/login",
+                  "host": ["{{host}}"],
+                  "path": ["auth", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "552"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"228-aLJ6kCAic92los4oirWK9fhqA1Q\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 11 Oct 2025 02:39:36 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"user\": {\n        \"id\": \"98d49f16-06ce-404b-96b4-937df7b4faf8\",\n        \"name\": \"Admin User\",\n        \"email\": \"admin@test.com\",\n        \"role\": \"admin\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjAxNTAzNzYsImV4cCI6MTc2MDE3OTE3Niwic3ViIjoiOThkNDlmMTYtMDZjZS00MDRiLTk2YjQtOTM3ZGY3YjRmYWY4In0.3yIAdunnB4miwD13_vM9RTGspFYk0EJ4Jh37_zjCJ0c\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNzYwMTUwMzc2LCJleHAiOjE3NjI3NDIzNzYsInN1YiI6Ijk4ZDQ5ZjE2LTA2Y2UtNDA0Yi05NmI0LTkzN2RmN2I0ZmFmOCJ9.iYG_PIBDYQEKGIWaSCRVG0rBunFsPHyfs4qL_QYKXDI\"\n}"
+            },
+            {
+              "name": "Login Padrinho",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"user@test.com\",\r\n    \"password\": \"user123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/auth/login",
+                  "host": ["{{host}}"],
+                  "path": ["auth", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "551"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"227-ShlOjNbj6+r0/TXUXO6hACJELvA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 11 Oct 2025 02:39:31 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"user\": {\n        \"id\": \"a2a42295-5b06-4479-9fc7-7156ecaf8010\",\n        \"name\": \"Regular User\",\n        \"email\": \"user@test.com\",\n        \"role\": \"user\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjAxNTAzNzEsImV4cCI6MTc2MDE3OTE3MSwic3ViIjoiYTJhNDIyOTUtNWIwNi00NDc5LTlmYzctNzE1NmVjYWY4MDEwIn0.oXsI6udaSFT_FISt_2JL-5Xz-IqzUIY8f-DqHVAgsCg\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJpYXQiOjE3NjAxNTAzNzEsImV4cCI6MTc2Mjc0MjM3MSwic3ViIjoiYTJhNDIyOTUtNWIwNi00NDc5LTlmYzctNzE1NmVjYWY4MDEwIn0.nUBE3llhzoG0wwuRJ61F-ZlXjmeSHrvSacDEXAqiCLQ\"\n}"
+            }
+          ]
         },
         {
           "name": "Logout",
           "request": {
             "method": "POST",
             "header": [],
+            "url": {
+              "raw": "{{host}}/logout",
+              "host": ["{{host}}"],
+              "path": ["logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cadastro Padrinho",
+          "request": {
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"refreshToken\": \"{{refresh_token}}\"\r\n}",
+              "raw": "{\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"123456\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -89,9 +226,34 @@
               }
             },
             "url": {
-              "raw": "{{host}}/auth/logout",
+              "raw": "{{host}}/auth/register",
               "host": ["{{host}}"],
-              "path": ["auth", "logout"]
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"refreshToken\": {{refreshToken}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/refresh",
+              "host": ["{{host}}"],
+              "path": ["refresh"]
             }
           },
           "response": []
@@ -104,7 +266,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{access_token}}",
+        "value": "{{token}}",
         "type": "string"
       }
     ]
@@ -135,11 +297,11 @@
       "value": ""
     },
     {
-      "key": "access_token",
+      "key": "token",
       "value": ""
     },
     {
-      "key": "refresh_token",
+      "key": "refreshToken",
       "value": ""
     }
   ]
