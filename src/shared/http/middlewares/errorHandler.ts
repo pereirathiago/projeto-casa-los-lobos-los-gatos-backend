@@ -1,6 +1,7 @@
 import { AppError } from '@shared/errors/AppError.js'
 import { ValidationError } from '@shared/errors/http.js'
 import { NextFunction, Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import * as Yup from 'yup'
 
 export function errorHandler(
@@ -9,7 +10,10 @@ export function errorHandler(
   res: Response,
   next: NextFunction,
 ): Response {
+  const { JsonWebTokenError, TokenExpiredError } = jwt
+
   console.error('Error Handler:', {
+    name: err.name,
     message: err.message,
     stack: err.stack,
   })
@@ -26,6 +30,18 @@ export function errorHandler(
     return res.status(err.statusCode).json({
       message: err.message,
       errors: err.errors,
+    })
+  }
+
+  if (err instanceof TokenExpiredError) {
+    return res.status(401).json({
+      message: 'Token expired',
+    })
+  }
+
+  if (err instanceof JsonWebTokenError) {
+    return res.status(401).json({
+      message: 'Invalid token',
     })
   }
 

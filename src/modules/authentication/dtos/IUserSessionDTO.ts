@@ -11,7 +11,7 @@ interface IAuthenticateUserResponse {
     id: string
     name: string
     email: string
-    role: 'user' | 'admin'
+    role: 'sponsor' | 'admin'
   }
 }
 
@@ -21,4 +21,31 @@ interface ICreateUserSessionDTO {
   expires_date: Date
 }
 
-export { IAuthenticateUserDTO, IAuthenticateUserResponse, ICreateUserSessionDTO }
+interface IAccessTokenPayload {
+  sub: string
+  email: string
+  role: string
+  version: string
+  parent?: {
+    uuid: string
+    exp: number
+  }
+}
+
+interface IRefreshTokenDTO {
+  refreshToken: string
+}
+
+interface IRefreshTokenResponse {
+  token: string
+  expires_in: number
+}
+
+export {
+  IAccessTokenPayload,
+  IAuthenticateUserDTO,
+  IAuthenticateUserResponse,
+  ICreateUserSessionDTO,
+  IRefreshTokenDTO,
+  IRefreshTokenResponse,
+}

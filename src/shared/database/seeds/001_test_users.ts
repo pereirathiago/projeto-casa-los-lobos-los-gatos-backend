@@ -18,7 +18,7 @@ export async function seed(knex: Knex): Promise<void> {
       name: 'Regular User',
       email: 'user@test.com',
       password: userPassword,
-      role: 'user',
+      role: 'sponsor',
       active: true,
     },
   ])

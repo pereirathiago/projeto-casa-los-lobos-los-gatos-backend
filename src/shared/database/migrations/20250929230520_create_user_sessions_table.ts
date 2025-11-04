@@ -11,10 +11,10 @@ export async function up(knex: Knex): Promise<void> {
       .inTable('users')
       .onDelete('CASCADE')
     table.text('refresh_token').notNullable()
+    table.boolean('is_active').notNullable().defaultTo(true)
     table.timestamp('expires_date').notNullable()
     table.timestamps(true, true)
-    table.index('user_id')
-    table.index('refresh_token')
+    table.index(['user_id', 'is_active', 'refresh_token'])
   })
 }
 

@@ -1,6 +1,5 @@
 import { AppError } from '@shared/errors/AppError.js'
 import { hash } from 'bcrypt'
-import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { IUserRepository } from '../repositories/interfaces/IUserRepository.js'
 import { IRegisterUserDTO, IRegisterUserResponse } from '../repositories/interfaces/register.js'
@@ -39,12 +38,12 @@ export class RegisterUserUseCase {
     // Hash da senha
     const hashedPassword = await hash(password, 8)
 
-    // Criar usuário com role 'user' (padrinho)
+    // Criar usuário com role 'sponsor' (padrinho)
     const user = await this.userRepository.create({
       name,
       email,
       password: hashedPassword,
-      role: 'user',
+      role: 'sponsor',
     })
 
     // Retornar dados do usuário sem a senha

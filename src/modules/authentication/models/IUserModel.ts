@@ -4,7 +4,7 @@ interface IUserModel {
   name: string
   email: string
   password: string
-  role: 'user' | 'admin'
+  role: 'sponsor' | 'admin'
   active: boolean
   created_at: Date
   updated_at: Date
