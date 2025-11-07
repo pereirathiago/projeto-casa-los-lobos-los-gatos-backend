@@ -6,7 +6,7 @@ import helloWorldRoutes from './hellowWorldRoues.js'
 const router = Router()
 
 router.use('/', authRoutes)
-router.use('/admins', adminRoutes)
+router.use('/admin', adminRoutes)
 router.use('/hello-world', helloWorldRoutes)
 
 export default router

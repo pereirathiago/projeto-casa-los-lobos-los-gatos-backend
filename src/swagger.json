@@ -546,7 +546,7 @@
         }
       }
     },
-    "/admins": {
+    "/admin": {
       "post": {
         "summary": "Criar Administrador",
         "description": "Essa rota permite que um administrador crie outro administrador. Apenas administradores autenticados podem acessar.",
@@ -703,7 +703,7 @@
         }
       }
     },
-    "/admins/{id}": {
+    "/admin/{id}": {
       "get": {
         "summary": "Buscar Administrador por ID",
         "description": "Essa rota retorna os dados de um administrador específico. Apenas administradores autenticados podem acessar.",
