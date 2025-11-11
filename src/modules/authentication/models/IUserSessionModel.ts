@@ -1,6 +1,6 @@
 interface UserSessionModel {
   id: string
-  user_id: string
+  user_id: number
   refresh_token: string
   expires_date: Date
   is_active: boolean

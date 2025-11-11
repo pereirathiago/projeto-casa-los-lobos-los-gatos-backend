@@ -2,7 +2,7 @@ interface IRegisterUserDTO {
   name: string
   email: string
   password: string
-  role: 'user' | 'admin'
+  role: 'sponsor' | 'admin'
 }
 
 export { IRegisterUserDTO }

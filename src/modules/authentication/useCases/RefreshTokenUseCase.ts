@@ -1,16 +1,15 @@
 import { config } from '@src/config/index.js'
 import { AppError } from '@src/shared/errors/AppError.js'
 import { UnauthorizedError } from '@src/shared/errors/http.js'
-import { compare } from 'bcrypt'
 import { createHash } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { inject, injectable } from 'tsyringe'
-import { IAuthenticateUserDTO, IAuthenticateUserResponse } from '../dtos/IUserSessionDTO.js'
+import { IRefreshTokenDTO, IRefreshTokenResponse } from '../dtos/IUserSessionDTO.js'
 import { IUserRepository } from '../repositories/interfaces/IUserRepository.js'
 import { IUserSessionRepository } from '../repositories/interfaces/IUserSessionRepository.js'
 
 @injectable()
-class AuthenticateUserUseCase {
+class RefreshTokenUseCase {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository,
@@ -18,60 +17,57 @@ class AuthenticateUserUseCase {
     private userSessionRepository: IUserSessionRepository,
   ) {}
 
-  async execute({ email, password }: IAuthenticateUserDTO): Promise<IAuthenticateUserResponse> {
-    const { sign } = jwt
+  async execute({ refreshToken }: IRefreshTokenDTO): Promise<IRefreshTokenResponse> {
+    const { verify, sign } = jwt
 
-    const user = await this.userRepository.findByEmail(email)
+    let decoded: any
+    try {
+      decoded = verify(refreshToken, config.auth.secret_refreshToken)
+    } catch (error) {
+      throw new UnauthorizedError('Invalid or expired refresh token')
+    }
+
+    if (decoded.type !== 'refresh') {
+      throw new UnauthorizedError('Invalid token type')
+    }
+
+    const session = await this.userSessionRepository.findByRefreshToken(refreshToken)
+
+    if (!session) {
+      throw new UnauthorizedError('Session not found or invalidated')
+    }
+
+    if (!session.is_active) {
+      throw new UnauthorizedError('Session invalidated (logout)')
+    }
+
+    if (new Date(session.expires_date) < new Date()) {
+      throw new UnauthorizedError('Session expired')
+    }
+
+    const userUuid = decoded.sub
+    const user = await this.userRepository.findByUuid(userUuid)
 
     if (!user) {
-      throw new UnauthorizedError('Invalid credentials')
+      throw new UnauthorizedError('User not found')
     }
 
     if (!user.active) {
-      throw new UnauthorizedError('Invalid credentials')
+      throw new UnauthorizedError('User account is inactive')
     }
-
-    const passwordMatch = await compare(password, user.password)
-
-    if (!passwordMatch) {
-      throw new UnauthorizedError('Invalid credentials')
-    }
-
-    const refreshExpiresInSeconds = this.parseExpiresIn(config.auth.expires_in_refreshToken)
-    const refreshExpiresDate = new Date(Date.now() + refreshExpiresInSeconds * 1000)
-
-    const refreshToken = sign(
-      {
-        type: 'refresh',
-        email: user.email,
-      },
-      config.auth.secret_refreshToken,
-      {
-        subject: user.uuid,
-        expiresIn: refreshExpiresInSeconds,
-      },
-    )
-
-    const newSession = await this.userSessionRepository.create({
-      user_id: user.id,
-      refresh_token: refreshToken,
-      expires_date: refreshExpiresDate,
-    })
-
-    const sessionId = newSession.id
 
     const passwordVersion = createHash('md5')
       .update(user.uuid + user.password)
       .digest('hex')
 
     const parentClaim = {
-      uuid: sessionId,
-      exp: refreshExpiresDate.getTime() / 1000,
+      uuid: session.id,
+      exp: new Date(session.expires_date).getTime() / 1000,
     }
 
     const expiresInSeconds = this.parseExpiresIn(config.auth.expires_in_token)
 
-    const token = sign(
+    const newAccessToken = sign(
       {
         email: user.email,
         role: user.role,
@@ -86,15 +82,8 @@ class AuthenticateUserUseCase {
     )
 
     return {
-      token,
+      token: newAccessToken,
       expires_in: expiresInSeconds,
-      refreshToken: refreshToken,
-      user: {
-        id: user.uuid,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
     }
   }
 
@@ -121,4 +110,4 @@ class AuthenticateUserUseCase {
   }
 }
 
-export { AuthenticateUserUseCase }
+export { RefreshTokenUseCase }

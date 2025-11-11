@@ -19,10 +19,21 @@ class UserSessionRepository implements IUserSessionRepository {
         user_id: sessionData.user_id,
         refresh_token: sessionData.refresh_token,
         expires_date: sessionData.expires_date,
+        is_active: true,
       })
       .returning('*')
 
     return session
+  }
+
+  async findById(id: string, trx?: Knex.Transaction): Promise<UserSessionModel | null> {
+    const connection = trx || this.db
+
+    const session = await connection<UserSessionModel>('user_sessions')
+      .where({ id, is_active: true })
+      .first()
+
+    return session || null
   }
 
   async findByRefreshToken(
@@ -38,7 +49,7 @@ class UserSessionRepository implements IUserSessionRepository {
     return session || null
   }
 
-  async findActiveByUserId(userId: string, trx?: Knex.Transaction): Promise<UserSessionModel[]> {
+  async findActiveByUserId(userId: number, trx?: Knex.Transaction): Promise<UserSessionModel[]> {
     const connection = trx || this.db
 
     const sessions = await connection<UserSessionModel>('user_sessions')
@@ -49,26 +60,37 @@ class UserSessionRepository implements IUserSessionRepository {
     return sessions
   }
 
-  async deleteByRefreshToken(refreshToken: string, trx?: Knex.Transaction): Promise<boolean> {
+  async invalidateById(id: string, trx?: Knex.Transaction): Promise<boolean> {
     const connection = trx || this.db
 
-    const deletedCount = await connection('user_sessions')
-      .where({ refresh_token: refreshToken })
-      .del()
+    const updatedCount = await connection('user_sessions')
+      .where({ id, is_active: true })
+      .update({ is_active: false, updated_at: connection.fn.now() })
 
-    return deletedCount > 0
+    return updatedCount > 0
   }
 
-  async deleteByUserId(userId: string, trx?: Knex.Transaction): Promise<void> {
+  async invalidateByUserId(userId: number, trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
-    await connection('user_sessions').where({ user_id: userId }).del()
+    await connection('user_sessions')
+      .where({ user_id: userId, is_active: true })
+      .update({ is_active: false, updated_at: connection.fn.now() })
+  }
+
+  async deleteById(id: string, trx?: Knex.Transaction): Promise<void> {
+    const connection = trx || this.db
+
+    await connection('user_sessions').where({ id }).del()
   }
 
   async deleteExpiredSessions(trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
-    await connection('user_sessions').where('expires_at', '<', connection.fn.now()).del()
+    await connection('user_sessions')
+      .where('expires_date', '<', connection.fn.now())
+      .orWhere('is_active', false)
+      .del()
   }
 }
 

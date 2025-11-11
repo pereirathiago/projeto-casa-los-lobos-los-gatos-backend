@@ -38,17 +38,17 @@ export class RegisterUserUseCase {
     // Hash da senha
     const hashedPassword = await hash(password, 8)
 
-    // Criar usuário com role 'user' (padrinho)
+    // Criar usuário com role 'sponsor' (padrinho)
     const user = await this.userRepository.create({
       name,
       email,
       password: hashedPassword,
-      role: 'user',
+      role: 'sponsor',
     })
 
     // Retornar dados do usuário sem a senha
     return {
-      id: user.id,
+      id: user.uuid,
       name: user.name,
       email: user.email,
       role: user.role,

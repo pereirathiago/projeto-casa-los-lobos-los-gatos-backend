@@ -1,64 +1,80 @@
 import { config } from '@config/index.js'
-import { AppError } from '@shared/errors/AppError.js'
+import { UnauthorizedError } from '@shared/errors/http.js'
+import { IAccessTokenPayload } from '@src/modules/authentication/dtos/IUserSessionDTO.js'
 import { IUserRepository } from '@src/modules/authentication/repositories/interfaces/IUserRepository.js'
+import { IUserSessionRepository } from '@src/modules/authentication/repositories/interfaces/IUserSessionRepository.js'
+import { createHash } from 'crypto'
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { container } from 'tsyringe'
-
-interface IPayload {
-  sub: string
-}
 
 export async function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
 ): Promise<void> {
-  try {
-    const authHeader = request.headers.authorization
-    const { verify } = jwt
+  const authHeader = request.headers.authorization
+  const { verify } = jwt
 
-    if (!authHeader) {
-      throw new AppError('Token missing!', 401)
-    }
-
-    const [, token] = authHeader.split(' ')
-
-    if (!token) {
-      throw new AppError('Token missing!', 401)
-    }
-
-    const { sub: userId } = verify(token, config.auth.secret_token) as IPayload
-
-    const userRepository = container.resolve<IUserRepository>('UserRepository')
-    const user = await userRepository.findById(userId)
-
-    if (!user) {
-      throw new AppError('User not found!', 401)
-    }
-
-    if (!user.active) {
-      throw new AppError('User account is inactive!', 401)
-    }
-
-    request.user = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    }
-
-    next()
-  } catch (error) {
-    if (error instanceof AppError) {
-      response.status(error.statusCode).json({
-        error: error.message,
-      })
-      return
-    }
-
-    response.status(401).json({
-      error: 'Invalid token!',
-    })
+  if (!authHeader) {
+    throw new UnauthorizedError('Token missing')
   }
+
+  const [, token] = authHeader.split(' ')
+
+  if (!token) {
+    throw new UnauthorizedError('Token missing')
+  }
+
+  let payload: IAccessTokenPayload
+  try {
+    payload = verify(token, config.auth.secret_token) as IAccessTokenPayload
+  } catch (error) {
+    throw new UnauthorizedError('Invalid or expired token')
+  }
+
+  const userRepository = container.resolve<IUserRepository>('UserRepository')
+  const user = await userRepository.findByUuid(payload.sub)
+
+  if (!user) {
+    throw new UnauthorizedError('User not found')
+  }
+
+  if (!user.active) {
+    throw new UnauthorizedError('User account is inactive')
+  }
+
+  const expectedVersion = createHash('md5')
+    .update(user.uuid + user.password)
+    .digest('hex')
+
+  if (payload.version !== expectedVersion) {
+    throw new UnauthorizedError('Token invalidated (password changed)')
+  }
+  if (!payload.parent || !payload.parent.uuid) {
+    throw new UnauthorizedError('Invalid token: missing parent session')
+  }
+
+  const userSessionRepository = container.resolve<IUserSessionRepository>('UserSessionRepository')
+
+  const parentSession = await userSessionRepository.findById(payload.parent.uuid)
+
+  if (!parentSession) {
+    throw new UnauthorizedError('Session invalidated or expired (logout)')
+  }
+
+  if (new Date(parentSession.expires_date) < new Date()) {
+    throw new UnauthorizedError('Session expired')
+  }
+
+  request.user = {
+    id: user.id,
+    uuid: user.uuid,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    parent: payload.parent,
+  }
+
+  next()
 }

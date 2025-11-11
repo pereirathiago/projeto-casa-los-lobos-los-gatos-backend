@@ -31,12 +31,60 @@ class UserRepository implements IUserRepository {
     return user || null
   }
 
-  async findById(id: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
+  async findById(id: number, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
     const user = await connection<IUserModel>('users').where({ id }).first()
 
     return user || null
+  }
+
+  async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
+    const connection = trx || this.db
+
+    const user = await connection<IUserModel>('users').where({ uuid }).first()
+
+    return user || null
+  }
+
+  async update(
+    id: number,
+    userData: Partial<IUserModel>,
+    trx?: Knex.Transaction,
+  ): Promise<IUserModel> {
+    const connection = trx || this.db
+
+    const [user] = await connection<IUserModel>('users')
+      .where({ id })
+      .update({
+        ...userData,
+        updated_at: connection.fn.now(),
+      })
+      .returning('*')
+
+    return user
+  }
+
+  async delete(id: number, trx?: Knex.Transaction): Promise<void> {
+    const connection = trx || this.db
+
+    await connection<IUserModel>('users').where({ id }).delete()
+  }
+
+  async findAll(trx?: Knex.Transaction): Promise<IUserModel[]> {
+    const connection = trx || this.db
+
+    const users = await connection<IUserModel>('users').select('*')
+
+    return users
+  }
+
+  async findAllAdmins(trx?: Knex.Transaction): Promise<IUserModel[]> {
+    const connection = trx || this.db
+
+    const admins = await connection<IUserModel>('users').where({ role: 'admin' }).select('*')
+
+    return admins
   }
 }
 

@@ -1,27 +1,21 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
+import { IAccessTokenPayload } from '../dtos/IUserSessionDTO.js'
 import { LogoutUserUseCase } from '../useCases/LogoutUserUseCase.js'
 
-export class LogoutUserController {
+class LogoutUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    try {
-      const { id: userId } = request.user
-      const { refreshToken } = request.body
+    const tokenPayload = request.user as IAccessTokenPayload
+    console.log(tokenPayload)
 
-      const logoutUserUseCase = container.resolve(LogoutUserUseCase)
+    const logoutUserUseCase = container.resolve(LogoutUserUseCase)
 
-      await logoutUserUseCase.execute({
-        userId,
-        refreshToken,
-      })
+    await logoutUserUseCase.execute(tokenPayload)
 
-      return response.status(200).json({
-        message: 'User logged out successfully',
-      })
-    } catch (error) {
-      return response.status(400).json({
-        error: error instanceof Error ? error.message : 'Internal server error',
-      })
-    }
+    return response.status(200).json({
+      message: 'User logged out successfully',
+    })
   }
 }
+
+export { LogoutUserController }
