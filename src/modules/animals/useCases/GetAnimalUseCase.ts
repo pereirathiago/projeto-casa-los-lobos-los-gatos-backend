@@ -3,6 +3,7 @@ import { IAnimalPhotoRepository } from '@modules/animals/repositories/interfaces
 import { IAnimalRepository } from '@modules/animals/repositories/interfaces/IAnimalRepository.js'
 import { IAnimalTagRepository } from '@modules/animals/repositories/interfaces/IAnimalTagRepository.js'
 import { NotFoundError } from '@shared/errors/index.js'
+import { IStorageProvider } from '@src/shared/container/providers/storage-provider/i-storage-provider.js'
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
@@ -13,6 +14,7 @@ class GetAnimalUseCase {
     @inject('AnimalRepository') private animalRepository: IAnimalRepository,
     @inject('AnimalPhotoRepository') private animalPhotoRepository: IAnimalPhotoRepository,
     @inject('AnimalTagRepository') private animalTagRepository: IAnimalTagRepository,
+    @inject('StorageProvider') private storageProvider: IStorageProvider,
   ) {}
 
   async execute(uuid: string): Promise<IAnimalResponseDTO> {
@@ -22,10 +24,8 @@ class GetAnimalUseCase {
       throw new NotFoundError('Animal não encontrado')
     }
 
-    // Buscar fotos
     const photos = await this.animalPhotoRepository.findByAnimalId(animal.id)
 
-    // Buscar tags
     const tags = await this.animalTagRepository.findByAnimalId(animal.id)
 
     return {
@@ -34,7 +34,7 @@ class GetAnimalUseCase {
         id: photo.id,
         uuid: photo.uuid,
         animal_id: photo.animal_id,
-        photo_url: photo.photo_url,
+        photo_url: `${this.storageProvider.url}/animals/${photo.photo_url}`,
         order_index: photo.order_index,
         created_at: photo.created_at,
       })),
@@ -54,7 +54,6 @@ class GetAnimalUseCase {
   }): Promise<IAnimalResponseDTO[]> {
     const animals = await this.animalRepository.findAll(filters)
 
-    // Buscar fotos e tags para cada animal
     const animalsWithDetails = await Promise.all(
       animals.map(async (animal) => {
         const photos = await this.animalPhotoRepository.findByAnimalId(animal.id)
@@ -66,7 +65,7 @@ class GetAnimalUseCase {
             id: photo.id,
             uuid: photo.uuid,
             animal_id: photo.animal_id,
-            photo_url: photo.photo_url,
+            photo_url: `${this.storageProvider.url}/animals/${photo.photo_url}`,
             order_index: photo.order_index,
             created_at: photo.created_at,
           })),

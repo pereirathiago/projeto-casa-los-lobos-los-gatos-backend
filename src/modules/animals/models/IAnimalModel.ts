@@ -7,6 +7,7 @@ interface IAnimalModel {
   age: number
   description: string
   photo_url: string | null
+  active: boolean
   created_at: Date
   updated_at: Date
 }

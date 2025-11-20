@@ -3,11 +3,12 @@ import { IAnimalPhotoRepository } from '@modules/animals/repositories/interfaces
 import { IAnimalRepository } from '@modules/animals/repositories/interfaces/IAnimalRepository.js'
 import { IAnimalTagRepository } from '@modules/animals/repositories/interfaces/IAnimalTagRepository.js'
 import { ValidationError } from '@shared/errors/index.js'
+import { IStorageProvider } from '@src/shared/container/providers/storage-provider/i-storage-provider.js'
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
 interface ICreateAnimalRequest extends ICreateAnimalDTO {
-  photos: string[] // URLs das fotos já salvas
+  files: Express.Multer.File[]
 }
 
 @injectable()
@@ -17,30 +18,29 @@ class CreateAnimalUseCase {
     @inject('AnimalRepository') private animalRepository: IAnimalRepository,
     @inject('AnimalPhotoRepository') private animalPhotoRepository: IAnimalPhotoRepository,
     @inject('AnimalTagRepository') private animalTagRepository: IAnimalTagRepository,
+    @inject('StorageProvider') private storageProvider: IStorageProvider,
   ) {}
 
   async execute(data: ICreateAnimalRequest): Promise<IAnimalResponseDTO> {
-    // Validação de fotos
-    if (!data.photos || data.photos.length === 0) {
+    if (!data.files || data.files.length === 0) {
       throw new ValidationError([
         {
-          field: 'photos',
+          field: 'arquivos',
           message: 'Pelo menos uma foto é obrigatória',
         },
       ])
     }
 
-    if (data.photos.length > 3) {
+    if (data.files.length > 3) {
       throw new ValidationError([
         {
-          field: 'photos',
+          field: 'arquivos',
           message: 'Máximo de 3 fotos permitidas',
         },
       ])
     }
 
     const animal = await this.db.transaction(async (trx) => {
-      // Criar animal
       const newAnimal = await this.animalRepository.create(
         {
           name: data.name,
@@ -52,24 +52,17 @@ class CreateAnimalUseCase {
         trx,
       )
 
-      // Salvar fotos
-      const photosData = data.photos.map((photoUrl, index) => ({
-        photoUrl,
+      for (const file of data.files) {
+        await this.storageProvider.save(file.filename, 'animals')
+      }
+
+      const photosData = data.files.map((file, index) => ({
+        photoUrl: file.filename,
         orderIndex: index,
       }))
 
       const photos = await this.animalPhotoRepository.createMany(newAnimal.id, photosData, trx)
 
-      // Atualizar photo_url principal (primeira foto)
-      await this.animalRepository.update(
-        newAnimal.id,
-        {
-          photo_url: photos[0].photo_url,
-        },
-        trx,
-      )
-
-      // Salvar tags se existirem
       let tags = []
       if (data.tags && data.tags.length > 0) {
         const tagsData = data.tags.map((tag) => ({
@@ -82,12 +75,11 @@ class CreateAnimalUseCase {
 
       return {
         ...newAnimal,
-        photo_url: photos[0].photo_url,
         photos: photos.map((photo) => ({
           id: photo.id,
           uuid: photo.uuid,
           animal_id: photo.animal_id,
-          photo_url: photo.photo_url,
+          photo_url: `${this.storageProvider.url}/animals/${photo.photo_url}`,
           order_index: photo.order_index,
           created_at: photo.created_at,
         })),

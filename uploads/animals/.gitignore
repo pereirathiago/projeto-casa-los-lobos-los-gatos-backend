@@ -1,9 +1,0 @@
-# Ignorar todas as imagens, mas manter a estrutura de pastas
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.webp
-
-# Manter o .gitkeep
-!.gitkeep

@@ -9,7 +9,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string('breed', 255).notNullable()
     table.decimal('age', 4, 1).notNullable().checkBetween([0, 30])
     table.text('description').notNullable()
-    table.string('photo_url', 500).nullable()
     table.timestamps(true, true)
 
     // Índices para melhorar performance de busca

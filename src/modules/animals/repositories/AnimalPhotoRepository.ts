@@ -56,10 +56,38 @@ class AnimalPhotoRepository implements IAnimalPhotoRepository {
     return photos
   }
 
+  async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IAnimalPhotoModel | null> {
+    const connection = trx || this.db
+
+    const photo = await connection<IAnimalPhotoModel>('animal_photos').where({ uuid }).first()
+
+    return photo || null
+  }
+
+  async findByUuidAndAnimalId(
+    uuid: string,
+    animalId: number,
+    trx?: Knex.Transaction,
+  ): Promise<IAnimalPhotoModel | null> {
+    const connection = trx || this.db
+
+    const photo = await connection<IAnimalPhotoModel>('animal_photos')
+      .where({ uuid, animal_id: animalId })
+      .first()
+
+    return photo || null
+  }
+
   async deleteByAnimalId(animalId: number, trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
     await connection<IAnimalPhotoModel>('animal_photos').where({ animal_id: animalId }).delete()
+  }
+
+  async deleteByUuid(uuid: string, trx?: Knex.Transaction): Promise<void> {
+    const connection = trx || this.db
+
+    await connection<IAnimalPhotoModel>('animal_photos').where({ uuid }).delete()
   }
 
   async delete(id: number, trx?: Knex.Transaction): Promise<void> {
