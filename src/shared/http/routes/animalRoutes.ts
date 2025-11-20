@@ -25,9 +25,13 @@ router.post('/', uploadAnimalImages.array('arquivos', 3), validateCreateAnimal, 
   animalController.create(req, res),
 )
 
-router.put('/:uuid', uploadAnimalImages.array('arquivos', 3), validateUpdateAnimal, (req, res) =>
-  animalController.update(req, res),
+router.put('/:uuid', validateUpdateAnimal, (req, res) => animalController.update(req, res))
+
+router.post('/:uuid/photos', uploadAnimalImages.single('arquivo'), (req, res) =>
+  animalController.addPhoto(req, res),
 )
+
+router.delete('/:uuid/photos/:photoUuid', (req, res) => animalController.deletePhoto(req, res))
 
 router.delete('/:uuid', (req, res) => animalController.delete(req, res))
 

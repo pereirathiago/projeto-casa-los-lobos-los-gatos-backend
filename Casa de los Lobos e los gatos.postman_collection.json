@@ -259,6 +259,169 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Animais",
+      "item": [
+        {
+          "name": "Cadastrar",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "teste",
+                  "type": "text"
+                },
+                {
+                  "key": "type",
+                  "value": "dog",
+                  "type": "text"
+                },
+                {
+                  "key": "breed",
+                  "value": "pastor",
+                  "type": "text"
+                },
+                {
+                  "key": "age",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "descicao teste teste",
+                  "type": "text"
+                },
+                {
+                  "key": "arquivos",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/thiago/Downloads/player-preto-branco.png",
+                    "/C:/Users/thiago/Downloads/check.png"
+                  ]
+                },
+                {
+                  "key": "tags",
+                  "value": "[{ \"id\": \"1\", \"label\": \"Saudável\", \"color\": \"#10b981\" }]",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/animals",
+              "host": ["{{host}}"],
+              "path": ["animals"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/animals?type=&breed&minAge&maxAge",
+              "host": ["{{host}}"],
+              "path": ["animals"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": ""
+                },
+                {
+                  "key": "breed",
+                  "value": null
+                },
+                {
+                  "key": "minAge",
+                  "value": null
+                },
+                {
+                  "key": "maxAge",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar animal por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/animals/:uuid",
+              "host": ["{{host}}"],
+              "path": ["animals", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "4c12dec4-b729-4f0e-9829-768f4257b0ff"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar imagem",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/animals/:uuid/photos/:photoUuid",
+              "host": ["{{host}}"],
+              "path": ["animals", ":uuid", "photos", ":photoUuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "4c12dec4-b729-4f0e-9829-768f4257b0ff"
+                },
+                {
+                  "key": "photoUuid",
+                  "value": "419fe7f9-e597-4ce2-bd44-8655d129370c"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Adicionar imagem",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "arquivo",
+                  "type": "file",
+                  "src": "/C:/Users/thiago/Downloads/CortinaUI.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/animals/:uuid/photos",
+              "host": ["{{host}}"],
+              "path": ["animals", ":uuid", "photos"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "4c12dec4-b729-4f0e-9829-768f4257b0ff"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {

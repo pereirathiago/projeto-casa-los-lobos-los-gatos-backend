@@ -7,12 +7,8 @@ import { IStorageProvider } from '@src/shared/container/providers/storage-provid
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
-interface IUpdateAnimalRequest extends IUpdateAnimalDTO {
-  files?: Express.Multer.File[]
-}
-
 @injectable()
-class UpdateAnimalUseCase {
+class UpdateAnimalInfoUseCase {
   constructor(
     @inject('KnexConnection') private db: Knex,
     @inject('AnimalRepository') private animalRepository: IAnimalRepository,
@@ -21,7 +17,7 @@ class UpdateAnimalUseCase {
     @inject('StorageProvider') private storageProvider: IStorageProvider,
   ) {}
 
-  async execute(uuid: string, data: IUpdateAnimalRequest): Promise<IAnimalResponseDTO> {
+  async execute(uuid: string, data: IUpdateAnimalDTO): Promise<IAnimalResponseDTO> {
     const existingAnimal = await this.animalRepository.findByUuid(uuid)
 
     if (!existingAnimal) {
@@ -31,35 +27,16 @@ class UpdateAnimalUseCase {
     const updatedAnimal = await this.db.transaction(async (trx) => {
       const updateData: any = {}
 
-      if (data.name) updateData.name = data.name
-      if (data.type) updateData.type = data.type
-      if (data.breed) updateData.breed = data.breed
+      if (data.name !== undefined) updateData.name = data.name
+      if (data.type !== undefined) updateData.type = data.type
+      if (data.breed !== undefined) updateData.breed = data.breed
       if (data.age !== undefined) updateData.age = data.age
-      if (data.description) updateData.description = data.description
+      if (data.description !== undefined) updateData.description = data.description
 
       let animal = existingAnimal
 
       if (Object.keys(updateData).length > 0) {
         animal = await this.animalRepository.update(existingAnimal.id, updateData, trx)
-      }
-
-      if (data.files && data.files.length > 0) {
-        for (const file of data.files) {
-          await this.storageProvider.save(file.filename, 'animals')
-        }
-
-        const photosData = data.files.map((file, index) => ({
-          photoUrl: file.filename,
-          orderIndex: index,
-        }))
-
-        await this.animalPhotoRepository.deleteByAnimalId(existingAnimal.id, trx)
-
-        const newPhotos = await this.animalPhotoRepository.createMany(
-          existingAnimal.id,
-          photosData,
-          trx,
-        )
       }
 
       if (data.tags !== undefined) {
@@ -100,4 +77,4 @@ class UpdateAnimalUseCase {
   }
 }
 
-export { UpdateAnimalUseCase }
+export { UpdateAnimalInfoUseCase }

@@ -14,7 +14,14 @@ interface IAnimalPhotoRepository {
     trx?: Knex.Transaction,
   ): Promise<IAnimalPhotoModel[]>
   findByAnimalId(animalId: number, trx?: Knex.Transaction): Promise<IAnimalPhotoModel[]>
+  findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IAnimalPhotoModel | null>
+  findByUuidAndAnimalId(
+    uuid: string,
+    animalId: number,
+    trx?: Knex.Transaction,
+  ): Promise<IAnimalPhotoModel | null>
   deleteByAnimalId(animalId: number, trx?: Knex.Transaction): Promise<void>
+  deleteByUuid(uuid: string, trx?: Knex.Transaction): Promise<void>
   delete(id: number, trx?: Knex.Transaction): Promise<void>
 }
 
