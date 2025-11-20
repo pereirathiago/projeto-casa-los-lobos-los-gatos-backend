@@ -370,6 +370,53 @@
           "response": []
         },
         {
+          "name": "Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"teste\",\r\n  \"type\": \"dog\",\r\n  \"breed\": \"pastor\",\r\n  \"age\": 5,\r\n  \"description\": \"descicao teste atualizado\",\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"1\",\r\n      \"label\": \"Saudável\",\r\n      \"color\": \"#10b981\"\r\n    },\r\n    {\r\n      \"id\": \"2\",\r\n      \"label\": \"Saudável\",\r\n      \"color\": \"#10b981\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/animals/:uuid",
+              "host": ["{{host}}"],
+              "path": ["animals", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "4c12dec4-b729-4f0e-9829-768f4257b0ff"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/animals/:uuid",
+              "host": ["{{host}}"],
+              "path": ["animals", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "5285b56c-8919-4474-ad32-7b93aa51e4eb"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Deletar imagem",
           "request": {
             "method": "DELETE",
