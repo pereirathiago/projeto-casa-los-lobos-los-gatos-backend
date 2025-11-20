@@ -39,7 +39,7 @@ interface IAnimalResponseDTO {
   breed: string
   age: number
   description: string
-  photo_url: string | null
+  active: boolean
   photos?: IAnimalPhotoDTO[]
   tags?: IAnimalTagDTO[]
   created_at: Date

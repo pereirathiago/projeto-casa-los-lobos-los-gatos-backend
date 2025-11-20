@@ -18,7 +18,7 @@ class AnimalRepository implements IAnimalRepository {
         breed: animalData.breed,
         age: animalData.age,
         description: animalData.description,
-        photo_url: null,
+        active: true,
       })
       .returning('*')
 
@@ -28,7 +28,7 @@ class AnimalRepository implements IAnimalRepository {
   async findById(id: number, trx?: Knex.Transaction): Promise<IAnimalModel | null> {
     const connection = trx || this.db
 
-    const animal = await connection<IAnimalModel>('animals').where({ id }).first()
+    const animal = await connection<IAnimalModel>('animals').where({ id, active: true }).first()
 
     return animal || null
   }
@@ -36,7 +36,7 @@ class AnimalRepository implements IAnimalRepository {
   async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IAnimalModel | null> {
     const connection = trx || this.db
 
-    const animal = await connection<IAnimalModel>('animals').where({ uuid }).first()
+    const animal = await connection<IAnimalModel>('animals').where({ uuid, active: true }).first()
 
     return animal || null
   }
@@ -52,7 +52,7 @@ class AnimalRepository implements IAnimalRepository {
   ): Promise<IAnimalModel[]> {
     const connection = trx || this.db
 
-    let query = connection<IAnimalModel>('animals').select('*')
+    let query = connection<IAnimalModel>('animals').select('*').where({ active: true })
 
     if (filters?.type) {
       query = query.where({ type: filters.type })
@@ -96,7 +96,10 @@ class AnimalRepository implements IAnimalRepository {
   async delete(id: number, trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
-    await connection<IAnimalModel>('animals').where({ id }).delete()
+    await connection<IAnimalModel>('animals').where({ id }).update({
+      active: false,
+      updated_at: connection.fn.now(),
+    })
   }
 }
 

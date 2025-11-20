@@ -16,7 +16,6 @@ export async function seed(knex: Knex): Promise<void> {
         age: 3.0,
         description:
           'Rex é um cachorro muito amigável e brincalhão que adora correr no parque e fazer novos amigos. Ele é perfeito para famílias ativas.',
-        photo_url: '/uploads/animals/example-dog-1.jpg',
       },
       {
         name: 'Luna',
@@ -25,7 +24,6 @@ export async function seed(knex: Knex): Promise<void> {
         age: 2.5,
         description:
           'Luna é uma gatinha calma e carinhosa que adora dormir no sofá e receber carinho. Ela é ideal para quem busca um pet tranquilo.',
-        photo_url: '/uploads/animals/example-cat-1.jpg',
       },
       {
         name: 'Max',
@@ -34,7 +32,6 @@ export async function seed(knex: Knex): Promise<void> {
         age: 5.0,
         description:
           'Max é um cão leal e protetor, muito inteligente e obediente. Ele já teve treinamento básico e se dá bem com crianças maiores.',
-        photo_url: '/uploads/animals/example-dog-2.jpg',
       },
     ])
     .returning('id')
@@ -44,34 +41,34 @@ export async function seed(knex: Knex): Promise<void> {
     // Fotos do Rex
     {
       animal_id: animals[0].id,
-      photo_url: '/uploads/animals/example-dog-1.jpg',
+      photo_url: '/tmp/animals/example-dog-1.jpg',
       order_index: 0,
     },
     {
       animal_id: animals[0].id,
-      photo_url: '/uploads/animals/example-dog-1-2.jpg',
+      photo_url: '/tmp/animals/example-dog-1-2.jpg',
       order_index: 1,
     },
     // Fotos da Luna
     {
       animal_id: animals[1].id,
-      photo_url: '/uploads/animals/example-cat-1.jpg',
+      photo_url: '/tmp/animals/example-cat-1.jpg',
       order_index: 0,
     },
     {
       animal_id: animals[1].id,
-      photo_url: '/uploads/animals/example-cat-1-2.jpg',
+      photo_url: '/tmp/animals/example-cat-1-2.jpg',
       order_index: 1,
     },
     {
       animal_id: animals[1].id,
-      photo_url: '/uploads/animals/example-cat-1-3.jpg',
+      photo_url: '/tmp/animals/example-cat-1-3.jpg',
       order_index: 2,
     },
     // Fotos do Max
     {
       animal_id: animals[2].id,
-      photo_url: '/uploads/animals/example-dog-2.jpg',
+      photo_url: '/tmp/animals/example-dog-2.jpg',
       order_index: 0,
     },
   ])

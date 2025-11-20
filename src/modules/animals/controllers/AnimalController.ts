@@ -11,17 +11,9 @@ class AnimalController {
     const data = req.body as ICreateAnimalDTO
     const files = req.files as Express.Multer.File[]
 
-    // Construir URLs das fotos
-    const photos = files.map((file) => {
-      return `/uploads/animals/${file.filename}`
-    })
-
     const createAnimalUseCase = container.resolve(CreateAnimalUseCase)
 
-    const animal = await createAnimalUseCase.execute({
-      ...data,
-      photos,
-    })
+    const animal = await createAnimalUseCase.execute({ ...data, files })
 
     return res.status(201).json({
       message: 'Animal cadastrado com sucesso',
@@ -61,16 +53,11 @@ class AnimalController {
     const data = req.body as IUpdateAnimalDTO
     const files = req.files as Express.Multer.File[] | undefined
 
-    // Construir URLs das novas fotos se fornecidas
-    const photos = files?.map((file) => {
-      return `/uploads/animals/${file.filename}`
-    })
-
     const updateAnimalUseCase = container.resolve(UpdateAnimalUseCase)
 
     const animal = await updateAnimalUseCase.execute(uuid, {
       ...data,
-      photos,
+      files,
     })
 
     return res.status(200).json({

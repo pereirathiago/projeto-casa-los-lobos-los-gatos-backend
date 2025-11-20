@@ -12,6 +12,7 @@ import { UserSessionRepository } from '@src/modules/authentication/repositories/
 import { HelloWorldRepository } from '@src/modules/common/repositories/HelloWorldRepository.js'
 import { IHelloWorldRepository } from '@src/modules/common/repositories/interfaces/IHelloWorldRepository.js'
 import { container } from 'tsyringe'
+import './providers/index.js'
 
 container.register('KnexConnection', { useValue: db })
 
