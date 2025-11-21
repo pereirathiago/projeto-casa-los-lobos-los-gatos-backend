@@ -22,10 +22,12 @@ class AdminController {
 
   async getById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params
+    // Se não houver id nos params, usa o id do usuário logado (rota /me)
+    const adminId = id ? Number(id) : req.user!.id
 
     const getAdminUseCase = container.resolve(GetAdminUseCase)
 
-    const admin = await getAdminUseCase.execute(Number(id))
+    const admin = await getAdminUseCase.execute(adminId)
 
     return res.status(200).json(admin)
   }
@@ -41,10 +43,12 @@ class AdminController {
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params
     const data = req.body as IUpdateAdminDTO
+    // Se não houver id nos params, usa o id do usuário logado (rota /me)
+    const adminId = id ? Number(id) : req.user!.id
 
     const updateAdminUseCase = container.resolve(UpdateAdminUseCase)
 
-    const admin = await updateAdminUseCase.execute(Number(id), data)
+    const admin = await updateAdminUseCase.execute(adminId, data)
 
     return res.status(200).json({
       message: 'Admin updated successfully!',

@@ -15,6 +15,11 @@ const adminController = container.resolve(AdminController)
 router.use(ensureAuthenticated)
 router.use(ensureAdminRole)
 
+// Rotas para admin comum gerenciar seu próprio perfil
+router.get('/me', (req, res) => adminController.getById(req, res))
+router.put('/me', validateUpdateAdmin, (req, res) => adminController.update(req, res))
+
+// Rotas restritas ao Master Admin
 router.post('/', ensureMasterAdmin, validateCreateAdmin, (req, res) =>
   adminController.create(req, res),
 )

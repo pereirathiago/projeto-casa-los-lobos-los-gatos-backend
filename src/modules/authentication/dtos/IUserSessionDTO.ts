@@ -12,6 +12,7 @@ interface IAuthenticateUserResponse {
     name: string
     email: string
     role: 'sponsor' | 'admin'
+    is_master: boolean
   }
 }
 
