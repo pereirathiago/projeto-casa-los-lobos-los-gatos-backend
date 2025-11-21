@@ -17,6 +17,7 @@ class UserRepository implements IUserRepository {
         email: userData.email,
         password: userData.password,
         role: userData.role,
+        is_master: false,
       })
       .returning('*')
 
@@ -26,7 +27,7 @@ class UserRepository implements IUserRepository {
   async findByEmail(email: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ email }).first()
+    const user = await connection<IUserModel>('users').where({ email, active: true }).first()
 
     return user || null
   }
@@ -34,7 +35,7 @@ class UserRepository implements IUserRepository {
   async findById(id: number, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ id }).first()
+    const user = await connection<IUserModel>('users').where({ id, active: true }).first()
 
     return user || null
   }
@@ -42,7 +43,7 @@ class UserRepository implements IUserRepository {
   async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ uuid }).first()
+    const user = await connection<IUserModel>('users').where({ uuid, active: true }).first()
 
     return user || null
   }
@@ -68,7 +69,10 @@ class UserRepository implements IUserRepository {
   async delete(id: number, trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
-    await connection<IUserModel>('users').where({ id }).delete()
+    await connection<IUserModel>('users').where({ id }).update({
+      active: false,
+      updated_at: connection.fn.now(),
+    })
   }
 
   async findAll(trx?: Knex.Transaction): Promise<IUserModel[]> {

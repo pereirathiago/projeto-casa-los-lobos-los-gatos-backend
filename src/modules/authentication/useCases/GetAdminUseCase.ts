@@ -22,6 +22,10 @@ class GetAdminUseCase {
       throw new NotFoundError('Admin not found')
     }
 
+    if (!admin.active) {
+      throw new NotFoundError('Admin not found')
+    }
+
     // Retornar dados do admin sem a senha
     const { password, ...adminResponse } = admin
 

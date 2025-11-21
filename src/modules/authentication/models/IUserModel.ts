@@ -5,6 +5,7 @@ interface IUserModel {
   email: string
   password: string
   role: 'sponsor' | 'admin'
+  is_master: boolean
   active: boolean
   created_at: Date
   updated_at: Date

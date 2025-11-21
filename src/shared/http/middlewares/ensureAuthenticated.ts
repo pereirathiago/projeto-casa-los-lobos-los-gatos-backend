@@ -73,6 +73,7 @@ export async function ensureAuthenticated(
     name: user.name,
     email: user.email,
     role: user.role,
+    is_master: user.is_master,
     parent: payload.parent,
   }
 
