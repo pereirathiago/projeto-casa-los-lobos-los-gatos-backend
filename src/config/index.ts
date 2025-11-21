@@ -71,10 +71,10 @@ const authConfig: Config['auth'] = {
   expires_refreshToken_days: Number(getEnvVar('JWT_REFRESH_EXPIRES_DAYS') || '30'),
 }
 
-export const config: Config = {
+const config: Config = {
   server: serverConfig,
   database: databaseConfig,
   auth: authConfig,
 }
 
-export default config
+export { config }

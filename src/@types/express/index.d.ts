@@ -1,10 +1,15 @@
 declare namespace Express {
   export interface Request {
     user: {
-      id?: string
+      id?: number
+      uuid?: string
       name?: string
       email?: string
-      role?: string
+      role?: 'sponsor' | 'admin'
+      parent?: {
+        uuid: string
+        exp: number
+      }
     }
   }
 }
