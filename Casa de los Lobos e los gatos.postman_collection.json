@@ -62,7 +62,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"admin@test.com\",\r\n    \"password\": \"admin123\"\r\n}",
+              "raw": "{\r\n    \"email\": \"masteradmin@test.com\",\r\n    \"password\": \"admin123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -91,9 +91,9 @@
                   }
                 },
                 "url": {
-                  "raw": "{{host}}/auth/login",
+                  "raw": "{{host}}/login",
                   "host": ["{{host}}"],
-                  "path": ["auth", "login"]
+                  "path": ["login"]
                 }
               },
               "status": "OK",
@@ -151,9 +151,9 @@
                   }
                 },
                 "url": {
-                  "raw": "{{host}}/auth/login",
+                  "raw": "{{host}}/login",
                   "host": ["{{host}}"],
-                  "path": ["auth", "login"]
+                  "path": ["login"]
                 }
               },
               "status": "OK",
@@ -195,6 +195,66 @@
               ],
               "cookie": [],
               "body": "{\n    \"user\": {\n        \"id\": \"a2a42295-5b06-4479-9fc7-7156ecaf8010\",\n        \"name\": \"Regular User\",\n        \"email\": \"user@test.com\",\n        \"role\": \"user\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjAxNTAzNzEsImV4cCI6MTc2MDE3OTE3MSwic3ViIjoiYTJhNDIyOTUtNWIwNi00NDc5LTlmYzctNzE1NmVjYWY4MDEwIn0.oXsI6udaSFT_FISt_2JL-5Xz-IqzUIY8f-DqHVAgsCg\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJpYXQiOjE3NjAxNTAzNzEsImV4cCI6MTc2Mjc0MjM3MSwic3ViIjoiYTJhNDIyOTUtNWIwNi00NDc5LTlmYzctNzE1NmVjYWY4MDEwIn0.nUBE3llhzoG0wwuRJ61F-ZlXjmeSHrvSacDEXAqiCLQ\"\n}"
+            },
+            {
+              "name": "Login Admin Master",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"masteradmin@test.com\",\r\n    \"password\": \"admin123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{host}}/login",
+                  "host": ["{{host}}"],
+                  "path": ["login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "835"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"343-nnKoEK5iaI757erz/0s1kSQtsR0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 21 Nov 2025 01:50:49 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hc3RlcmFkbWluQHRlc3QuY29tIiwicm9sZSI6ImFkbWluIiwidmVyc2lvbiI6IjJiOTU0ODkwMDI0MzBmNDljOWE5N2MwYmZmNjIyNGExIiwicGFyZW50Ijp7InV1aWQiOiJlNDAxMjg0ZS1jNjY5LTQzZWEtOTgxZi1iZjEyZTlmZWYyODYiLCJleHAiOjE3NjYyODE4NDkuNzY3fSwiaWF0IjoxNzYzNjg5ODQ5LCJleHAiOjE3NjM3MTg2NDksInN1YiI6ImNkMWM4MDg4LTEyNzQtNGEyOC1hNTc0LTgzN2ExYWRkNmNlOSJ9.6VR3lkxlphRAHxkcUHNm3ibvicMn8Seg0wuf9IqETFc\",\n    \"expires_in\": 28800,\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaCIsImVtYWlsIjoibWFzdGVyYWRtaW5AdGVzdC5jb20iLCJpYXQiOjE3NjM2ODk4NDksImV4cCI6MTc2NjI4MTg0OSwic3ViIjoiY2QxYzgwODgtMTI3NC00YTI4LWE1NzQtODM3YTFhZGQ2Y2U5In0.eBEJyieN_guSVuAlXe-vUSFMUevLdIKXxun9tVCk31s\",\n    \"user\": {\n        \"id\": \"cd1c8088-1274-4a28-a574-837a1add6ce9\",\n        \"name\": \"Master admin\",\n        \"email\": \"masteradmin@test.com\",\n        \"role\": \"admin\"\n    }\n}"
             }
           ]
         },
@@ -432,7 +492,7 @@
                 },
                 {
                   "key": "photoUuid",
-                  "value": "419fe7f9-e597-4ce2-bd44-8655d129370c"
+                  "value": "e2e3559e-a45d-4554-ba70-942fa4343f67"
                 }
               ]
             }
@@ -450,7 +510,7 @@
                 {
                   "key": "arquivo",
                   "type": "file",
-                  "src": "/C:/Users/thiago/Downloads/CortinaUI.png"
+                  "src": "/C:/Users/thiago/Downloads/player-preto-branco.png"
                 }
               ]
             },
@@ -462,6 +522,65 @@
                 {
                   "key": "uuid",
                   "value": "4c12dec4-b729-4f0e-9829-768f4257b0ff"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admins",
+      "item": [
+        {
+          "name": "Cadastrar admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Novo admin\",\r\n    \"email\": \"novoadmin@admin.com\",\r\n    \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/admin",
+              "host": ["{{host}}"],
+              "path": ["admin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar admins",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/admin/",
+              "host": ["{{host}}"],
+              "path": ["admin", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/admin/:id",
+              "host": ["{{host}}"],
+              "path": ["admin", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "3"
                 }
               ]
             }
