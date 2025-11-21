@@ -15,6 +15,7 @@ export async function seed(knex: Knex): Promise<void> {
       role: 'admin',
       is_master: true,
       active: true,
+      deleted: false,
     },
     {
       name: 'Admin User',
@@ -23,6 +24,7 @@ export async function seed(knex: Knex): Promise<void> {
       role: 'admin',
       is_master: false,
       active: true,
+      deleted: false,
     },
     {
       name: 'Regular User',
@@ -31,6 +33,7 @@ export async function seed(knex: Knex): Promise<void> {
       role: 'sponsor',
       is_master: false,
       active: true,
+      deleted: false,
     },
   ])
 

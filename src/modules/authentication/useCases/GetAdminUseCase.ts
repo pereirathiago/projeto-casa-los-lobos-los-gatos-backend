@@ -22,7 +22,7 @@ class GetAdminUseCase {
       throw new NotFoundError('Admin not found')
     }
 
-    if (!admin.active) {
+    if (admin.deleted) {
       throw new NotFoundError('Admin not found')
     }
 

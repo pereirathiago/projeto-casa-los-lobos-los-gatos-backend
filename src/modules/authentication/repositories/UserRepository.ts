@@ -18,6 +18,7 @@ class UserRepository implements IUserRepository {
         password: userData.password,
         role: userData.role,
         is_master: false,
+        deleted: false,
       })
       .returning('*')
 
@@ -27,7 +28,7 @@ class UserRepository implements IUserRepository {
   async findByEmail(email: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ email, active: true }).first()
+    const user = await connection<IUserModel>('users').where({ email }).first()
 
     return user || null
   }
@@ -35,7 +36,7 @@ class UserRepository implements IUserRepository {
   async findById(id: number, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ id, active: true }).first()
+    const user = await connection<IUserModel>('users').where({ id }).first()
 
     return user || null
   }
@@ -43,7 +44,7 @@ class UserRepository implements IUserRepository {
   async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ uuid, active: true }).first()
+    const user = await connection<IUserModel>('users').where({ uuid }).first()
 
     return user || null
   }
@@ -70,7 +71,7 @@ class UserRepository implements IUserRepository {
     const connection = trx || this.db
 
     await connection<IUserModel>('users').where({ id }).update({
-      active: false,
+      deleted: true,
       updated_at: connection.fn.now(),
     })
   }
@@ -86,7 +87,9 @@ class UserRepository implements IUserRepository {
   async findAllAdmins(trx?: Knex.Transaction): Promise<IUserModel[]> {
     const connection = trx || this.db
 
-    const admins = await connection<IUserModel>('users').where({ role: 'admin' }).select('*')
+    const admins = await connection<IUserModel>('users')
+      .where({ role: 'admin', deleted: false })
+      .select('*')
 
     return admins
   }

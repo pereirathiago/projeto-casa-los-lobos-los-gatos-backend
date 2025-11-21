@@ -25,7 +25,11 @@ class UpdateAdminUseCase {
         throw new NotFoundError('Admin not found')
       }
 
-      if (adminExists.is_master && !data.active) {
+      if (adminExists.deleted) {
+        throw new NotFoundError('Admin not found')
+      }
+
+      if (adminExists.is_master && data.active === false) {
         throw new BadRequestError('Cannot deactivate Master Admin')
       }
 

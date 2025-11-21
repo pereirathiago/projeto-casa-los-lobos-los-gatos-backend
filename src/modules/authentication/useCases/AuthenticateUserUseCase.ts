@@ -31,6 +31,10 @@ class AuthenticateUserUseCase {
       throw new UnauthorizedError('Invalid credentials')
     }
 
+    if (user.deleted) {
+      throw new UnauthorizedError('Invalid credentials')
+    }
+
     const passwordMatch = await compare(password, user.password)
 
     if (!passwordMatch) {

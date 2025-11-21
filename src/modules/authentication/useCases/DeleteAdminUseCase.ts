@@ -23,6 +23,10 @@ class DeleteAdminUseCase {
         throw new NotFoundError('Admin not found')
       }
 
+      if (adminExists.deleted) {
+        throw new NotFoundError('Admin not found')
+      }
+
       if (adminExists.is_master) {
         throw new ForbiddenError()
       }
