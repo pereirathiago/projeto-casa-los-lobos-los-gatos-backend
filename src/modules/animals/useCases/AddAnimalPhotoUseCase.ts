@@ -49,16 +49,6 @@ class AddAnimalPhotoUseCase {
         trx,
       )
 
-      if (existingPhotos.length === 0) {
-        await this.animalRepository.update(
-          animal.id,
-          {
-            photo_url: newPhoto.photo_url,
-          },
-          trx,
-        )
-      }
-
       return newPhoto
     })
 
