@@ -16,6 +16,10 @@ async function ensureAdminRole(
     throw new ForbiddenError()
   }
 
+  if (user.deleted === true) {
+    throw new ForbiddenError()
+  }
+
   next()
 }
 

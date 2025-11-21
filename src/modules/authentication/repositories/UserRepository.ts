@@ -17,6 +17,8 @@ class UserRepository implements IUserRepository {
         email: userData.email,
         password: userData.password,
         role: userData.role,
+        is_master: false,
+        deleted: false,
       })
       .returning('*')
 
@@ -68,7 +70,10 @@ class UserRepository implements IUserRepository {
   async delete(id: number, trx?: Knex.Transaction): Promise<void> {
     const connection = trx || this.db
 
-    await connection<IUserModel>('users').where({ id }).delete()
+    await connection<IUserModel>('users').where({ id }).update({
+      deleted: true,
+      updated_at: connection.fn.now(),
+    })
   }
 
   async findAll(trx?: Knex.Transaction): Promise<IUserModel[]> {
@@ -82,7 +87,9 @@ class UserRepository implements IUserRepository {
   async findAllAdmins(trx?: Knex.Transaction): Promise<IUserModel[]> {
     const connection = trx || this.db
 
-    const admins = await connection<IUserModel>('users').where({ role: 'admin' }).select('*')
+    const admins = await connection<IUserModel>('users')
+      .where({ role: 'admin', deleted: false })
+      .select('*')
 
     return admins
   }

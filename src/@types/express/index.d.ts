@@ -6,6 +6,8 @@ declare namespace Express {
       name?: string
       email?: string
       role?: 'sponsor' | 'admin'
+      is_master?: boolean
+      deleted?: boolean
       parent?: {
         uuid: string
         exp: number

@@ -44,6 +44,10 @@ export async function ensureAuthenticated(
     throw new UnauthorizedError('User account is inactive')
   }
 
+  if (user.deleted) {
+    throw new UnauthorizedError('User account has been deleted')
+  }
+
   const expectedVersion = createHash('md5')
     .update(user.uuid + user.password)
     .digest('hex')
@@ -73,6 +77,8 @@ export async function ensureAuthenticated(
     name: user.name,
     email: user.email,
     role: user.role,
+    is_master: user.is_master,
+    deleted: user.deleted,
     parent: payload.parent,
   }
 

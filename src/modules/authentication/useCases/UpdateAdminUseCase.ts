@@ -2,7 +2,7 @@ import { BadRequestError, ConflictError, NotFoundError } from '@shared/errors/in
 import { hash } from 'bcrypt'
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
-import { IUpdateAdminDTO, IAdminResponseDTO } from '../dtos/IAdminDTO.js'
+import { IAdminResponseDTO, IUpdateAdminDTO } from '../dtos/IAdminDTO.js'
 import { IUserRepository } from '../repositories/interfaces/IUserRepository.js'
 
 @injectable()
@@ -23,6 +23,14 @@ class UpdateAdminUseCase {
 
       if (adminExists.role !== 'admin') {
         throw new NotFoundError('Admin not found')
+      }
+
+      if (adminExists.deleted) {
+        throw new NotFoundError('Admin not found')
+      }
+
+      if (adminExists.is_master && data.active === false) {
+        throw new BadRequestError('Cannot deactivate Master Admin')
       }
 
       // Se está atualizando o e-mail, verificar se já existe

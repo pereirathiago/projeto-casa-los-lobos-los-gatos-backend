@@ -18,6 +18,7 @@ export interface IAdminResponseDTO {
   email: string
   role: string
   active: boolean
+  deleted: boolean
   created_at: Date
   updated_at: Date
 }

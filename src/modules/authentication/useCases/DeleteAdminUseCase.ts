@@ -1,4 +1,4 @@
-import { NotFoundError } from '@shared/errors/index.js'
+import { ForbiddenError, NotFoundError } from '@shared/errors/index.js'
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { IUserRepository } from '../repositories/interfaces/IUserRepository.js'
@@ -23,7 +23,14 @@ class DeleteAdminUseCase {
         throw new NotFoundError('Admin not found')
       }
 
-      // Deletar admin
+      if (adminExists.deleted) {
+        throw new NotFoundError('Admin not found')
+      }
+
+      if (adminExists.is_master) {
+        throw new ForbiddenError()
+      }
+
       await this.userRepository.delete(id, trx)
     })
   }
