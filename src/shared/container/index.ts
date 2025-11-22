@@ -11,19 +11,16 @@ import { UserRepository } from '@src/modules/authentication/repositories/UserRep
 import { UserSessionRepository } from '@src/modules/authentication/repositories/UserSessionRepository.js'
 import { HelloWorldRepository } from '@src/modules/common/repositories/HelloWorldRepository.js'
 import { IHelloWorldRepository } from '@src/modules/common/repositories/interfaces/IHelloWorldRepository.js'
+import { ISponsorRepository } from '@src/modules/sponsors/repositories/interfaces/ISponsorRepository.js'
+import { SponsorRepository } from '@src/modules/sponsors/repositories/SponsorRepository.js'
 import { container } from 'tsyringe'
 import './providers/index.js'
 
 container.register('KnexConnection', { useValue: db })
-
-// common
 container.register<IHelloWorldRepository>('HelloWorldRepository', HelloWorldRepository)
-
-// authentication
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository)
 container.registerSingleton<IUserSessionRepository>('UserSessionRepository', UserSessionRepository)
-
-// animals
+container.registerSingleton<ISponsorRepository>('SponsorRepository', SponsorRepository)
 container.registerSingleton<IAnimalRepository>('AnimalRepository', AnimalRepository)
 container.registerSingleton<IAnimalPhotoRepository>('AnimalPhotoRepository', AnimalPhotoRepository)
 container.registerSingleton<IAnimalTagRepository>('AnimalTagRepository', AnimalTagRepository)
