@@ -44,7 +44,9 @@ class UserRepository implements IUserRepository {
   async findByUuid(uuid: string, trx?: Knex.Transaction): Promise<IUserModel | null> {
     const connection = trx || this.db
 
-    const user = await connection<IUserModel>('users').where({ uuid }).first()
+    const user = await connection<IUserModel>('users')
+      .where({ uuid, deleted: false, active: true })
+      .first()
 
     return user || null
   }
