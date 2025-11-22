@@ -42,6 +42,7 @@ interface IAnimalResponseDTO {
   active: boolean
   photos?: IAnimalPhotoDTO[]
   tags?: IAnimalTagDTO[]
+  slug: string
   created_at: Date
   updated_at: Date
 }

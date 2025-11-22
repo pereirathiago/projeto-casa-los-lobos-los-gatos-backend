@@ -60,6 +60,7 @@ class UpdateAnimalInfoUseCase {
 
     return {
       ...updatedAnimal,
+      slug: updatedAnimal.id + '-' + updatedAnimal.name.toLowerCase().replace(/\s+/g, '-'),
       photos: photos.map((photo) => ({
         id: photo.id,
         uuid: photo.uuid,
