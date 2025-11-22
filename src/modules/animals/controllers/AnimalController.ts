@@ -33,6 +33,16 @@ class AnimalController {
     return res.status(200).json(animal)
   }
 
+  async getBySlug(req: Request, res: Response): Promise<Response> {
+    const { slug } = req.params
+
+    const getAnimalUseCase = container.resolve(GetAnimalUseCase)
+
+    const animal = await getAnimalUseCase.executeBySlug(slug)
+
+    return res.status(200).json(animal)
+  }
+
   async getAll(req: Request, res: Response): Promise<Response> {
     const { type, breed, minAge, maxAge } = req.query
 

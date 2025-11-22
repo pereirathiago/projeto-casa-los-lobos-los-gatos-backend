@@ -15,11 +15,11 @@ const uploadAnimalImages = multer(uploadConfig)
 
 const animalController = container.resolve(AnimalController)
 
-router.get('/', (req, res) => animalController.getAll(req, res))
-router.get('/:uuid', (req, res) => animalController.getById(req, res))
-
 router.use(ensureAuthenticated)
 router.use(ensureAdminRole)
+
+router.get('/', (req, res) => animalController.getAll(req, res))
+router.get('/:uuid', (req, res) => animalController.getById(req, res))
 
 router.post('/', uploadAnimalImages.array('arquivos', 3), validateCreateAnimal, (req, res) =>
   animalController.create(req, res),

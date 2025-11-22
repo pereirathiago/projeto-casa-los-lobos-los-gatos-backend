@@ -75,6 +75,7 @@ class CreateAnimalUseCase {
 
       return {
         ...newAnimal,
+        slug: newAnimal.id + '-' + newAnimal.name.toLowerCase().replace(/\s+/g, '-'),
         photos: photos.map((photo) => ({
           id: photo.id,
           uuid: photo.uuid,

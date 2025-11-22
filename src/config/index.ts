@@ -20,6 +20,7 @@ interface Config {
     secret_refreshToken: string
     expires_in_refreshToken: string
     expires_refreshToken_days: number
+    static_api_token: string
   }
 }
 
@@ -69,6 +70,7 @@ const authConfig: Config['auth'] = {
   secret_refreshToken: getEnvVar('JWT_SECRET_REFRESH_TOKEN'),
   expires_in_refreshToken: getEnvVar('JWT_REFRESH_EXPIRES_IN') || '30d',
   expires_refreshToken_days: Number(getEnvVar('JWT_REFRESH_EXPIRES_DAYS') || '30'),
+  static_api_token: getEnvVar('STATIC_API_TOKEN'),
 }
 
 const config: Config = {

@@ -30,6 +30,43 @@ class GetAnimalUseCase {
 
     return {
       ...animal,
+      slug: animal.id + '-' + animal.name.toLowerCase().replace(/\s+/g, '-'),
+      photos: photos.map((photo) => ({
+        id: photo.id,
+        uuid: photo.uuid,
+        animal_id: photo.animal_id,
+        photo_url: `${this.storageProvider.url}/animals/${photo.photo_url}`,
+        order_index: photo.order_index,
+        created_at: photo.created_at,
+      })),
+      tags: tags.map((tag) => ({
+        id: tag.uuid,
+        label: tag.label,
+        color: tag.color,
+      })),
+    }
+  }
+
+  async executeBySlug(slug: string): Promise<IAnimalResponseDTO> {
+    const slugParts = slug.split('-')
+    const animalId = parseInt(slugParts[0], 10)
+
+    if (isNaN(animalId)) {
+      throw new NotFoundError('Animal não encontrado')
+    }
+
+    const animal = await this.animalRepository.findById(animalId)
+
+    if (!animal) {
+      throw new NotFoundError('Animal não encontrado')
+    }
+
+    const photos = await this.animalPhotoRepository.findByAnimalId(animal.id)
+    const tags = await this.animalTagRepository.findByAnimalId(animal.id)
+
+    return {
+      ...animal,
+      slug: animal.id + '-' + animal.name.toLowerCase().replace(/\s+/g, '-'),
       photos: photos.map((photo) => ({
         id: photo.id,
         uuid: photo.uuid,
@@ -61,6 +98,7 @@ class GetAnimalUseCase {
 
         return {
           ...animal,
+          slug: animal.id + '-' + animal.name.toLowerCase().replace(/\s+/g, '-'),
           photos: photos.map((photo) => ({
             id: photo.id,
             uuid: photo.uuid,
