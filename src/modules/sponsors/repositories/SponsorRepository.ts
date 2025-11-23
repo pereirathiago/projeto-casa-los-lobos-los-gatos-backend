@@ -1,6 +1,7 @@
 import { IUserModel } from '@modules/authentication/models/IUserModel.js'
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
+import { ISponsorSearchResult } from '../dtos/ISponsorDTO.js'
 import { ISponsorRepository } from './interfaces/ISponsorRepository.js'
 
 @injectable()
@@ -25,6 +26,20 @@ class SponsorRepository implements ISponsorRepository {
       .first()
 
     return sponsor || null
+  }
+
+  async searchSponsorsByEmail(
+    email: string,
+    trx?: Knex.Transaction,
+  ): Promise<ISponsorSearchResult> {
+    const connection = trx || this.db
+
+    const sponsor = await connection<IUserModel>('users')
+      .where({ email, role: 'sponsor', deleted: false, active: true })
+      .select('uuid', 'name', 'email')
+      .first()
+
+    return sponsor
   }
 }
 

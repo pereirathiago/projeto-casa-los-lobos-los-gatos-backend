@@ -21,3 +21,9 @@ export interface ISponsorResponseDTO {
   created_at: Date
   updated_at: Date
 }
+
+export interface ISponsorSearchResult {
+  uuid: string
+  name: string
+  email: string
+}

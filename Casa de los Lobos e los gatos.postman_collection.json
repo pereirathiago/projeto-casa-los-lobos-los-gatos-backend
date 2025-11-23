@@ -700,6 +700,25 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Buscar por nome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/admin/sponsors/search?email=teste@gmail.com",
+              "host": ["{{host}}"],
+              "path": ["admin", "sponsors", "search"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "teste@gmail.com"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
