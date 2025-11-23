@@ -2,10 +2,11 @@ import { Router } from 'express'
 import adminRoutes from './adminRoutes.js'
 import adminSponsorRouter from './adminSponsorRoutes.js'
 import animalRoutes from './animalRoutes.js'
-import publicAnimalRoutes from './publicAnimalRoutes.js'
 import authRoutes from './authRoutes.js'
 import helloWorldRoutes from './hellowWorldRoues.js'
+import publicAnimalRoutes from './publicAnimalRoutes.js'
 import sponsorRoutes from './sponsorRoutes.js'
+import sponsorshipRoutes from './sponsorshipRoutes.js'
 
 const router = Router()
 
@@ -15,6 +16,7 @@ router.use('/public/animals', publicAnimalRoutes)
 router.use('/admin/sponsors', adminSponsorRouter)
 router.use('/admin', adminRoutes)
 router.use('/users', sponsorRoutes)
+router.use('/sponsorships', sponsorshipRoutes)
 router.use('/hello-world', helloWorldRoutes)
 
 export default router

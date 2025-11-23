@@ -13,6 +13,13 @@ import { HelloWorldRepository } from '@src/modules/common/repositories/HelloWorl
 import { IHelloWorldRepository } from '@src/modules/common/repositories/interfaces/IHelloWorldRepository.js'
 import { ISponsorRepository } from '@src/modules/sponsors/repositories/interfaces/ISponsorRepository.js'
 import { SponsorRepository } from '@src/modules/sponsors/repositories/SponsorRepository.js'
+import { ISponsorshipRepository } from '@src/modules/sponsorships/repositories/interfaces/ISponsorshipRepository.js'
+import { SponsorshipRepository } from '@src/modules/sponsorships/repositories/SponsorshipRepository.js'
+import { CreateSponsorshipUseCase } from '@src/modules/sponsorships/useCases/CreateSponsorshipUseCase.js'
+import { DeleteSponsorshipUseCase } from '@src/modules/sponsorships/useCases/DeleteSponsorshipUseCase.js'
+import { GetAllSponsorshipsUseCase } from '@src/modules/sponsorships/useCases/GetAllSponsorshipsUseCase.js'
+import { GetSponsorshipUseCase } from '@src/modules/sponsorships/useCases/GetSponsorshipUseCase.js'
+import { UpdateSponsorshipUseCase } from '@src/modules/sponsorships/useCases/UpdateSponsorshipUseCase.js'
 import { container } from 'tsyringe'
 import './providers/index.js'
 
@@ -24,5 +31,13 @@ container.registerSingleton<ISponsorRepository>('SponsorRepository', SponsorRepo
 container.registerSingleton<IAnimalRepository>('AnimalRepository', AnimalRepository)
 container.registerSingleton<IAnimalPhotoRepository>('AnimalPhotoRepository', AnimalPhotoRepository)
 container.registerSingleton<IAnimalTagRepository>('AnimalTagRepository', AnimalTagRepository)
+container.registerSingleton<ISponsorshipRepository>('SponsorshipRepository', SponsorshipRepository)
+
+// Sponsorship Use Cases
+container.registerSingleton('CreateSponsorshipUseCase', CreateSponsorshipUseCase)
+container.registerSingleton('GetAllSponsorshipsUseCase', GetAllSponsorshipsUseCase)
+container.registerSingleton('GetSponsorshipUseCase', GetSponsorshipUseCase)
+container.registerSingleton('UpdateSponsorshipUseCase', UpdateSponsorshipUseCase)
+container.registerSingleton('DeleteSponsorshipUseCase', DeleteSponsorshipUseCase)
 
 export { container }

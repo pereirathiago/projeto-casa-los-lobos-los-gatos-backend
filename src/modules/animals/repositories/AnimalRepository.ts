@@ -75,6 +75,18 @@ class AnimalRepository implements IAnimalRepository {
     return animals
   }
 
+  async searchByName(name: string, trx?: Knex.Transaction): Promise<IAnimalModel[]> {
+    const connection = trx || this.db
+
+    const animals = await connection<IAnimalModel>('animals')
+      .select('*')
+      .where({ active: true })
+      .andWhere('name', 'ilike', `%${name}%`)
+      .orderBy('name', 'asc')
+
+    return animals
+  }
+
   async update(
     id: number,
     animalData: Partial<IAnimalModel>,

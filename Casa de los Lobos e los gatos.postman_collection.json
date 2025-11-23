@@ -527,6 +527,25 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Buscar por nome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/animals/search?name=una",
+              "host": ["{{host}}"],
+              "path": ["animals", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "una"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -668,6 +687,38 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Buscar padrinhos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/admin/sponsors",
+              "host": ["{{host}}"],
+              "path": ["admin", "sponsors"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar por nome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/admin/sponsors/search?email=kenyon_Gleichner66@gmail.com",
+              "host": ["{{host}}"],
+              "path": ["admin", "sponsors", "search"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "kenyon_Gleichner66@gmail.com"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -748,6 +799,202 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Animals",
+          "item": [
+            {
+              "name": "Listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{host}}/public/animals?type=&breed&minAge&maxAge",
+                  "host": ["{{host}}"],
+                  "path": ["public", "animals"],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": ""
+                    },
+                    {
+                      "key": "breed",
+                      "value": null
+                    },
+                    {
+                      "key": "minAge",
+                      "value": null
+                    },
+                    {
+                      "key": "maxAge",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Buscar animal por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{host}}/public/animals/:slug",
+                  "host": ["{{host}}"],
+                  "path": ["public", "animals", ":slug"],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "6-teste"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token_public}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Apadrinhamento",
+      "item": [
+        {
+          "name": "Cadastrar apadrinhamento",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": \"074a6dfa-6e54-4a03-9b48-48832a761d98\",\r\n    \"animalId\": \"c735a7d6-ad9d-490b-838f-97c39a29f680\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/sponsorships",
+              "host": ["{{host}}"],
+              "path": ["sponsorships"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar apadrinhamento",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/sponsorships",
+              "host": ["{{host}}"],
+              "path": ["sponsorships"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar apadrinhamento By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/sponsorships/:uuid",
+              "host": ["{{host}}"],
+              "path": ["sponsorships", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"animalId\": \"c735a7d6-ad9d-490b-838f-97c39a29f680\",\r\n    \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/sponsorships/:uuid",
+              "host": ["{{host}}"],
+              "path": ["sponsorships", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar apadrinhamento",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/sponsorships/:uuid",
+              "host": ["{{host}}"],
+              "path": ["sponsorships", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
@@ -791,6 +1038,10 @@
     },
     {
       "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "token_public",
       "value": ""
     }
   ]

@@ -15,6 +15,7 @@ interface IAnimalRepository {
     },
     trx?: Knex.Transaction,
   ): Promise<IAnimalModel[]>
+  searchByName(name: string, trx?: Knex.Transaction): Promise<IAnimalModel[]>
   update(
     id: number,
     animalData: Partial<IAnimalModel>,
