@@ -27,7 +27,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
   }
 
   async findAllWithDetails(): Promise<ISponsorshipWithDetailsModel[]> {
-    const sponsorships = await this.db<ISponsorshipModel>('sponsorships')
+    const sponsorships = await this.db('sponsorships')
       .select(
         'sponsorships.uuid',
         'sponsorships.active',
@@ -46,7 +46,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
       .where('sponsorships.deleted', false)
       .orderBy('sponsorships.created_at', 'desc')
 
-    return sponsorships
+    return sponsorships as ISponsorshipWithDetailsModel[]
   }
 
   async findByUuid(uuid: string): Promise<ISponsorshipModel | undefined> {
@@ -57,7 +57,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
   }
 
   async findByUuidWithDetails(uuid: string): Promise<ISponsorshipWithDetailsModel | undefined> {
-    const sponsorship = await this.db<ISponsorshipModel>('sponsorships')
+    const sponsorship = await this.db('sponsorships')
       .select(
         'sponsorships.uuid',
         'sponsorships.active',
@@ -77,7 +77,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
       .andWhere('sponsorships.deleted', false)
       .first()
 
-    return sponsorship
+    return sponsorship as ISponsorshipWithDetailsModel | undefined
   }
 
   async findById(id: number): Promise<ISponsorshipModel | undefined> {

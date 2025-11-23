@@ -10,3 +10,8 @@ export const createSponsorshipSchema = yup.object().shape({
     .required('ID do animal é obrigatório')
     .uuid('ID do animal deve ser válido'),
 })
+
+export const updateSponsorshipSchema = yup.object().shape({
+  animalId: yup.string().uuid('ID do animal deve ser válido').optional(),
+  active: yup.boolean().optional(),
+})
