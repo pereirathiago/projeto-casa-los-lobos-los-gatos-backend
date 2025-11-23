@@ -707,13 +707,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{host}}/admin/sponsors/search?email=teste@gmail.com",
+              "raw": "{{host}}/admin/sponsors/search?email=kenyon_Gleichner66@gmail.com",
               "host": ["{{host}}"],
               "path": ["admin", "sponsors", "search"],
               "query": [
                 {
                   "key": "email",
-                  "value": "teste@gmail.com"
+                  "value": "kenyon_Gleichner66@gmail.com"
                 }
               ]
             }
@@ -892,7 +892,109 @@
     },
     {
       "name": "Apadrinhamento",
-      "item": []
+      "item": [
+        {
+          "name": "Cadastrar apadrinhamento",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": \"074a6dfa-6e54-4a03-9b48-48832a761d98\",\r\n    \"animalId\": \"c735a7d6-ad9d-490b-838f-97c39a29f680\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/sponsorships",
+              "host": ["{{host}}"],
+              "path": ["sponsorships"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar apadrinhamento",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/sponsorships",
+              "host": ["{{host}}"],
+              "path": ["sponsorships"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar apadrinhamento By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/sponsorships/:uuid",
+              "host": ["{{host}}"],
+              "path": ["sponsorships", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"animalId\": \"c735a7d6-ad9d-490b-838f-97c39a29f680\",\r\n    \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/sponsorships/:uuid",
+              "host": ["{{host}}"],
+              "path": ["sponsorships", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar apadrinhamento",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/sponsorships/:uuid",
+              "host": ["{{host}}"],
+              "path": ["sponsorships", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid",
+                  "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
