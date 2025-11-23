@@ -13,6 +13,8 @@ import { HelloWorldRepository } from '@src/modules/common/repositories/HelloWorl
 import { IHelloWorldRepository } from '@src/modules/common/repositories/interfaces/IHelloWorldRepository.js'
 import { ISponsorRepository } from '@src/modules/sponsors/repositories/interfaces/ISponsorRepository.js'
 import { SponsorRepository } from '@src/modules/sponsors/repositories/SponsorRepository.js'
+import { ISponsorshipRepository } from '@src/modules/sponsorships/repositories/interfaces/ISponsorshipRepository.js'
+import { SponsorshipRepository } from '@src/modules/sponsorships/repositories/SponsorshipRepository.js'
 import { container } from 'tsyringe'
 import './providers/index.js'
 
@@ -24,5 +26,6 @@ container.registerSingleton<ISponsorRepository>('SponsorRepository', SponsorRepo
 container.registerSingleton<IAnimalRepository>('AnimalRepository', AnimalRepository)
 container.registerSingleton<IAnimalPhotoRepository>('AnimalPhotoRepository', AnimalPhotoRepository)
 container.registerSingleton<IAnimalTagRepository>('AnimalTagRepository', AnimalTagRepository)
+container.registerSingleton<ISponsorshipRepository>('SponsorshipRepository', SponsorshipRepository)
 
 export { container }
