@@ -1,6 +1,7 @@
 import uploadConfig from '@config/upload.js'
 import { container } from '@shared/container/index.js'
 import { AnimalController } from '@src/modules/animals/controllers/AnimalController.js'
+import { SearchAnimalsByNameController } from '@src/modules/animals/controllers/SearchAnimalsByNameController.js'
 import {
   validateCreateAnimal,
   validateUpdateAnimal,
@@ -14,8 +15,11 @@ const router = Router()
 const uploadAnimalImages = multer(uploadConfig)
 
 const animalController = container.resolve(AnimalController)
+const searchAnimalsByNameController = container.resolve(SearchAnimalsByNameController)
 
 router.use(ensureAuthenticated)
+
+router.get('/search', ensureAdminRole, (req, res) => searchAnimalsByNameController.handle(req, res))
 
 router.get('/', (req, res) => animalController.getAll(req, res))
 router.get('/:uuid', (req, res) => animalController.getById(req, res))

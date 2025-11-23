@@ -527,6 +527,25 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Buscar por nome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/animals/search?name=una",
+              "host": ["{{host}}"],
+              "path": ["animals", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "una"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -668,6 +687,19 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Buscar padrinhos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/admin/sponsors",
+              "host": ["{{host}}"],
+              "path": ["admin", "sponsors"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -748,6 +780,100 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Animals",
+          "item": [
+            {
+              "name": "Listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{host}}/public/animals?type=&breed&minAge&maxAge",
+                  "host": ["{{host}}"],
+                  "path": ["public", "animals"],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": ""
+                    },
+                    {
+                      "key": "breed",
+                      "value": null
+                    },
+                    {
+                      "key": "minAge",
+                      "value": null
+                    },
+                    {
+                      "key": "maxAge",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Buscar animal por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{host}}/public/animals/:slug",
+                  "host": ["{{host}}"],
+                  "path": ["public", "animals", ":slug"],
+                  "variable": [
+                    {
+                      "key": "slug",
+                      "value": "6-teste"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token_public}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Apadrinhamento",
+      "item": []
     }
   ],
   "auth": {
@@ -791,6 +917,10 @@
     },
     {
       "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "token_public",
       "value": ""
     }
   ]
