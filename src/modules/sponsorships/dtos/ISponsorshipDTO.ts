@@ -24,3 +24,22 @@ export interface ISponsorshipResponseDTO {
   active: boolean
   date: Date
 }
+
+export interface IMySponsorshipResponseDTO {
+  uuid: string
+  animal: {
+    uuid: string
+    name: string
+    type: string
+    breed: string
+    age: number
+    description: string
+    photo: string | null
+    tags: Array<{
+      label: string
+      color: string
+    }>
+  }
+  active: boolean
+  sponsoredSince: Date
+}
