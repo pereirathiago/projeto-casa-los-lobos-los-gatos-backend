@@ -1,8 +1,8 @@
-import { ICreateDonationDTO } from '../../dtos/IDonationDTO.js'
+import { ICreateDonationInternalDTO } from '../../dtos/IDonationDTO.js'
 import { IDonationModel, IDonationWithDetailsModel } from '../../models/IDonationModel.js'
 
 export interface IDonationRepository {
-  create(data: ICreateDonationDTO): Promise<IDonationModel>
+  create(data: ICreateDonationInternalDTO): Promise<IDonationModel>
   findAll(): Promise<IDonationModel[]>
   findAllWithDetails(): Promise<IDonationWithDetailsModel[]>
   findByUuid(uuid: string): Promise<IDonationModel | null>

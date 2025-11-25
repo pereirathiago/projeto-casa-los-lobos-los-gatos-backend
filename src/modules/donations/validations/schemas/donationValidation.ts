@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 
 export const createDonationSchema = yup.object().shape({
+  userId: yup.string().uuid('ID do usuário deve ser um UUID válido').optional(),
   amount: yup
     .number()
     .required('Valor é obrigatório')

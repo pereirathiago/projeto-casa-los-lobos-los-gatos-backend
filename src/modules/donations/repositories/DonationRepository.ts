@@ -1,7 +1,7 @@
 import { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
-import { ICreateDonationDTO } from '../dtos/IDonationDTO.js'
+import { ICreateDonationInternalDTO } from '../dtos/IDonationDTO.js'
 import { IDonationModel, IDonationWithDetailsModel } from '../models/IDonationModel.js'
 import { IDonationRepository } from './interfaces/IDonationRepository.js'
 
@@ -12,7 +12,7 @@ export class DonationRepository implements IDonationRepository {
     private readonly knex: Knex,
   ) {}
 
-  async create(data: ICreateDonationDTO): Promise<IDonationModel> {
+  async create(data: ICreateDonationInternalDTO): Promise<IDonationModel> {
     const [donation] = await this.knex('donations')
       .insert({
         user_id: data.userId,

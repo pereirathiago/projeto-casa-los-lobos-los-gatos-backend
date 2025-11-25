@@ -1,4 +1,11 @@
 export interface ICreateDonationDTO {
+  userUuid: string
+  amount: number
+  donationDate: Date
+  notes?: string
+}
+
+export interface ICreateDonationInternalDTO {
   userId: number
   amount: number
   donationDate: Date
