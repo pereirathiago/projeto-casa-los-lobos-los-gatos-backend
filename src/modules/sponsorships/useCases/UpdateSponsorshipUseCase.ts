@@ -8,6 +8,7 @@ import { ISponsorshipRepository } from '../repositories/interfaces/ISponsorshipR
 interface IRequest {
   uuid: string
   animalUuid?: string
+  monthlyAmount?: number
   active?: boolean
 }
 
@@ -22,7 +23,12 @@ export class UpdateSponsorshipUseCase {
     private animalRepository: IAnimalRepository,
   ) {}
 
-  async execute({ uuid, animalUuid, active }: IRequest): Promise<ISponsorshipResponseDTO> {
+  async execute({
+    uuid,
+    animalUuid,
+    monthlyAmount,
+    active,
+  }: IRequest): Promise<ISponsorshipResponseDTO> {
     const sponsorship = await this.sponsorshipRepository.findByUuid(uuid)
 
     if (!sponsorship) {
@@ -39,6 +45,10 @@ export class UpdateSponsorshipUseCase {
       }
 
       updateData.animalId = animal.id
+    }
+
+    if (monthlyAmount !== undefined) {
+      updateData.monthlyAmount = monthlyAmount
     }
 
     if (active !== undefined) {
@@ -63,6 +73,7 @@ export class UpdateSponsorshipUseCase {
         type: animal!.type,
         breed: animal!.breed,
       },
+      monthlyAmount: updatedSponsorship.monthly_amount,
       active: updatedSponsorship.active,
       date: updatedSponsorship.created_at,
     }

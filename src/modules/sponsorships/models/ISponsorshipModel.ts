@@ -3,6 +3,7 @@ export interface ISponsorshipModel {
   uuid: string
   user_id: number
   animal_id: number
+  monthly_amount: number
   active: boolean
   deleted: boolean
   created_at: Date
@@ -11,6 +12,7 @@ export interface ISponsorshipModel {
 
 export interface ISponsorshipWithDetailsModel {
   uuid: string
+  monthly_amount: number
   active: boolean
   created_at: Date
   updated_at: Date

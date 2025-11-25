@@ -8,6 +8,7 @@ import { ISponsorshipRepository } from '../repositories/interfaces/ISponsorshipR
 interface IRequest {
   userUuid: string
   animalUuid: string
+  monthlyAmount: number
 }
 
 @injectable()
@@ -21,7 +22,11 @@ export class CreateSponsorshipUseCase {
     private animalRepository: IAnimalRepository,
   ) {}
 
-  async execute({ userUuid, animalUuid }: IRequest): Promise<ISponsorshipResponseDTO> {
+  async execute({
+    userUuid,
+    animalUuid,
+    monthlyAmount,
+  }: IRequest): Promise<ISponsorshipResponseDTO> {
     const user = await this.userRepository.findByUuid(userUuid)
     if (!user) {
       throw new NotFoundError('User not found')
@@ -48,6 +53,7 @@ export class CreateSponsorshipUseCase {
     const sponsorship = await this.sponsorshipRepository.create({
       userId: user.id,
       animalId: animal.id,
+      monthlyAmount: monthlyAmount,
     })
 
     return {
@@ -63,6 +69,7 @@ export class CreateSponsorshipUseCase {
         type: animal.type,
         breed: animal.breed,
       },
+      monthlyAmount: sponsorship.monthly_amount,
       active: sponsorship.active,
       date: sponsorship.created_at,
     }

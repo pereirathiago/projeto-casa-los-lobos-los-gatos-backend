@@ -6,12 +6,13 @@ import { UpdateSponsorshipUseCase } from '../useCases/UpdateSponsorshipUseCase.j
 export class UpdateSponsorshipController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { uuid } = request.params
-    const { animalUuid, active } = request.body
+    const { animalId, monthlyAmount, active } = request.body
 
     const updateSponsorshipUseCase = container.resolve(UpdateSponsorshipUseCase)
     const sponsorship = await updateSponsorshipUseCase.execute({
       uuid,
-      animalUuid,
+      animalUuid: animalId,
+      monthlyAmount,
       active,
     })
 

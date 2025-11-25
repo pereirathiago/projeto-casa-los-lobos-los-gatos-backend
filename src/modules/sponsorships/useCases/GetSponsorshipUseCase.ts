@@ -34,6 +34,7 @@ export class GetSponsorshipUseCase {
         type: sponsorship.animal_type,
         breed: sponsorship.animal_breed,
       },
+      monthlyAmount: sponsorship.monthly_amount,
       active: sponsorship.active,
       date: sponsorship.created_at,
     }

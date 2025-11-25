@@ -13,6 +13,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
       .insert({
         user_id: data.userId,
         animal_id: data.animalId,
+        monthly_amount: data.monthlyAmount,
         active: true,
       })
       .returning('*')
@@ -30,6 +31,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
     const sponsorships = await this.db('sponsorships')
       .select(
         'sponsorships.uuid',
+        'sponsorships.monthly_amount',
         'sponsorships.active',
         'sponsorships.created_at',
         'sponsorships.updated_at',
@@ -60,6 +62,7 @@ export class SponsorshipRepository implements ISponsorshipRepository {
     const sponsorship = await this.db('sponsorships')
       .select(
         'sponsorships.uuid',
+        'sponsorships.monthly_amount',
         'sponsorships.active',
         'sponsorships.created_at',
         'sponsorships.updated_at',
@@ -96,12 +99,15 @@ export class SponsorshipRepository implements ISponsorshipRepository {
   }
 
   async update(id: number, data: IUpdateSponsorshipDTO): Promise<ISponsorshipModel> {
+    const updateData: any = {}
+
+    if (data.animalId !== undefined) updateData.animal_id = data.animalId
+    if (data.monthlyAmount !== undefined) updateData.monthly_amount = data.monthlyAmount
+    if (data.active !== undefined) updateData.active = data.active
+
     const [sponsorship] = await this.db<ISponsorshipModel>('sponsorships')
       .where({ id })
-      .update({
-        animal_id: data.animalId,
-        active: data.active,
-      })
+      .update(updateData)
       .returning('*')
     return sponsorship
   }
