@@ -11,6 +11,8 @@ import { UserRepository } from '@src/modules/authentication/repositories/UserRep
 import { UserSessionRepository } from '@src/modules/authentication/repositories/UserSessionRepository.js'
 import { HelloWorldRepository } from '@src/modules/common/repositories/HelloWorldRepository.js'
 import { IHelloWorldRepository } from '@src/modules/common/repositories/interfaces/IHelloWorldRepository.js'
+import { DashboardRepository } from '@src/modules/dashboard/repositories/DashboardRepository.js'
+import { IDashboardRepository } from '@src/modules/dashboard/repositories/interfaces/IDashboardRepository.js'
 import { DonationRepository } from '@src/modules/donations/repositories/DonationRepository.js'
 import { IDonationRepository } from '@src/modules/donations/repositories/interfaces/IDonationRepository.js'
 import { ISponsorRepository } from '@src/modules/sponsors/repositories/interfaces/ISponsorRepository.js'
@@ -30,5 +32,6 @@ container.registerSingleton<IAnimalPhotoRepository>('AnimalPhotoRepository', Ani
 container.registerSingleton<IAnimalTagRepository>('AnimalTagRepository', AnimalTagRepository)
 container.registerSingleton<ISponsorshipRepository>('SponsorshipRepository', SponsorshipRepository)
 container.registerSingleton<IDonationRepository>('DonationRepository', DonationRepository)
+container.registerSingleton<IDashboardRepository>('DashboardRepository', DashboardRepository)
 
 export { container }
