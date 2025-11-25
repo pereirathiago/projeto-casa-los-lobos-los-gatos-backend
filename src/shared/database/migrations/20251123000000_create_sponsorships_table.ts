@@ -29,8 +29,6 @@ export async function up(knex: Knex): Promise<void> {
     table.index(['active'])
     table.index(['deleted'])
     table.index(['created_at'])
-
-    table.unique(['user_id', 'animal_id'])
   })
 }
 
