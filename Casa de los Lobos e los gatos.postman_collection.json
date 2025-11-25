@@ -797,6 +797,19 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Afilhados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/users/me/sponsorships",
+              "host": ["{{host}}"],
+              "path": ["users", "me", "sponsorships"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -900,7 +913,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"userId\": \"074a6dfa-6e54-4a03-9b48-48832a761d98\",\r\n    \"animalId\": \"c735a7d6-ad9d-490b-838f-97c39a29f680\"\r\n}",
+              "raw": "{\r\n    \"userId\": \"fab71611-6938-4565-93de-d2433f4d4e2f\",\r\n    \"animalId\": \"c735a7d6-ad9d-490b-838f-97c39a29f680\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -990,6 +1003,145 @@
                   "value": "f81d1a24-2855-486f-93ad-2bbfa880c2ce"
                 }
               ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Donations",
+      "item": [
+        {
+          "name": "Deletar doação (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/donations/:uuid",
+              "host": ["{{host}}"],
+              "path": ["donations", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Confirmar doação (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/donations/:uuid/confirm",
+              "host": ["{{host}}"],
+              "path": ["donations", ":uuid", "confirm"],
+              "variable": [
+                {
+                  "key": "uuid"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar doação por ID (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/donations/:uuid",
+              "host": ["{{host}}"],
+              "path": ["donations", ":uuid"],
+              "variable": [
+                {
+                  "key": "uuid"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar todas as doações (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/donations",
+              "host": ["{{host}}"],
+              "path": ["donations"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar doação (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 150.50,\n    \"donationDate\": \"2025-11-23T10:30:00\",\n    \"notes\": \"Doação para os animais\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/donations",
+              "host": ["{{host}}"],
+              "path": ["donations"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Minhas doações (Padrinho)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/users/me/donations",
+              "host": ["{{host}}"],
+              "path": ["users", "me", "donations"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar doação (Padrinho)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 100.00,\n    \"donationDate\": \"2025-11-23T14:45:00\",\n    \"notes\": \"Minha doação mensal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/users/me/donations",
+              "host": ["{{host}}"],
+              "path": ["users", "me", "donations"]
             }
           },
           "response": []

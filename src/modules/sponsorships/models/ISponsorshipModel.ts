@@ -24,3 +24,19 @@ export interface ISponsorshipWithDetailsModel {
   animal_type: string
   animal_breed: string
 }
+
+export interface ISponsorshipWithAnimalDetailsModel {
+  sponsorship_uuid: string
+  active: boolean
+  sponsored_since: Date
+  animal_id: number
+  animal_uuid: string
+  animal_name: string
+  animal_type: string
+  animal_breed: string
+  animal_age: number
+  animal_description: string
+  photo_url: string | null
+  tag_label: string | null
+  tag_color: string | null
+}

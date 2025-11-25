@@ -11,15 +11,12 @@ import { UserRepository } from '@src/modules/authentication/repositories/UserRep
 import { UserSessionRepository } from '@src/modules/authentication/repositories/UserSessionRepository.js'
 import { HelloWorldRepository } from '@src/modules/common/repositories/HelloWorldRepository.js'
 import { IHelloWorldRepository } from '@src/modules/common/repositories/interfaces/IHelloWorldRepository.js'
+import { DonationRepository } from '@src/modules/donations/repositories/DonationRepository.js'
+import { IDonationRepository } from '@src/modules/donations/repositories/interfaces/IDonationRepository.js'
 import { ISponsorRepository } from '@src/modules/sponsors/repositories/interfaces/ISponsorRepository.js'
 import { SponsorRepository } from '@src/modules/sponsors/repositories/SponsorRepository.js'
 import { ISponsorshipRepository } from '@src/modules/sponsorships/repositories/interfaces/ISponsorshipRepository.js'
 import { SponsorshipRepository } from '@src/modules/sponsorships/repositories/SponsorshipRepository.js'
-import { CreateSponsorshipUseCase } from '@src/modules/sponsorships/useCases/CreateSponsorshipUseCase.js'
-import { DeleteSponsorshipUseCase } from '@src/modules/sponsorships/useCases/DeleteSponsorshipUseCase.js'
-import { GetAllSponsorshipsUseCase } from '@src/modules/sponsorships/useCases/GetAllSponsorshipsUseCase.js'
-import { GetSponsorshipUseCase } from '@src/modules/sponsorships/useCases/GetSponsorshipUseCase.js'
-import { UpdateSponsorshipUseCase } from '@src/modules/sponsorships/useCases/UpdateSponsorshipUseCase.js'
 import { container } from 'tsyringe'
 import './providers/index.js'
 
@@ -32,12 +29,6 @@ container.registerSingleton<IAnimalRepository>('AnimalRepository', AnimalReposit
 container.registerSingleton<IAnimalPhotoRepository>('AnimalPhotoRepository', AnimalPhotoRepository)
 container.registerSingleton<IAnimalTagRepository>('AnimalTagRepository', AnimalTagRepository)
 container.registerSingleton<ISponsorshipRepository>('SponsorshipRepository', SponsorshipRepository)
-
-// Sponsorship Use Cases
-container.registerSingleton('CreateSponsorshipUseCase', CreateSponsorshipUseCase)
-container.registerSingleton('GetAllSponsorshipsUseCase', GetAllSponsorshipsUseCase)
-container.registerSingleton('GetSponsorshipUseCase', GetSponsorshipUseCase)
-container.registerSingleton('UpdateSponsorshipUseCase', UpdateSponsorshipUseCase)
-container.registerSingleton('DeleteSponsorshipUseCase', DeleteSponsorshipUseCase)
+container.registerSingleton<IDonationRepository>('DonationRepository', DonationRepository)
 
 export { container }
