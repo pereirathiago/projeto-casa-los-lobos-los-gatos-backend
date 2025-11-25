@@ -3,6 +3,7 @@ import { GetSponsorController } from '@modules/sponsors/controllers/GetSponsorCo
 import { UpdateSponsorController } from '@modules/sponsors/controllers/UpdateSponsorController.js'
 import { validateUpdateSponsor } from '@modules/sponsors/validations/validateSponsor.js'
 import { container } from '@shared/container/index.js'
+import { SponsorDashboardController } from '@src/modules/dashboard/controllers/SponsorDashboardController.js'
 import { CreateDonationController } from '@src/modules/donations/controllers/CreateDonationController.js'
 import { GetDonationsBySponsorController } from '@src/modules/donations/controllers/GetDonationsBySponsorController.js'
 import { validateCreateDonation } from '@src/modules/donations/validations/validateDonation.js'
@@ -19,6 +20,11 @@ const deleteSponsorController = container.resolve(DeleteSponsorController)
 const getSponsorshipBySponsorController = container.resolve(GetSponsorshipBySponsorController)
 const createDonationController = container.resolve(CreateDonationController)
 const getDonationsBySponsorController = container.resolve(GetDonationsBySponsorController)
+const sponsorDashboardController = container.resolve(SponsorDashboardController)
+
+router.get('/dashboard', ensureAuthenticated, ensureSponsorRole, (req, res) =>
+  sponsorDashboardController.handle(req, res),
+)
 
 router.get('/me', ensureAuthenticated, ensureSponsorRole, (req, res) =>
   getSponsorController.handle(req, res),
