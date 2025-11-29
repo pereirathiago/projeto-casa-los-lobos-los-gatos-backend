@@ -9,6 +9,7 @@ const dbConfig: Knex.Config = {
     database: config.database.name,
     user: config.database.user,
     password: config.database.password,
+    ssl: { rejectUnauthorized: false },
   },
   pool: {
     min: 2,

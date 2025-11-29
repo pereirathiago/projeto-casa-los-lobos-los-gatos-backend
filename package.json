@@ -2,7 +2,7 @@
   "name": "backend-casa-los-lobos-los-gatos",
   "version": "1.0.0",
   "description": "Backend do projeto desenvolvido para Casa Los Lobos e Los Gatos",
-  "main": "src/server.ts",
+  "main": "src/shared/http/server.ts",
   "type": "module",
   "license": "MIT",
   "scripts": {
