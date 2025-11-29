@@ -1,4 +1,4 @@
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { ISponsorResponseDTO } from '../dtos/ISponsorDTO.js'
 import { ISponsorRepository } from '../repositories/interfaces/ISponsorRepository.js'

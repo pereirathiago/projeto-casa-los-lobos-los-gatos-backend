@@ -1,6 +1,6 @@
 import { ICreateUserSessionDTO } from '@modules/authentication/dtos/IUserSessionDTO.js'
 import { UserSessionModel } from '@modules/authentication/models/IUserSessionModel.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 
 interface IUserSessionRepository {
   create(sessionData: ICreateUserSessionDTO, trx?: Knex.Transaction): Promise<UserSessionModel>

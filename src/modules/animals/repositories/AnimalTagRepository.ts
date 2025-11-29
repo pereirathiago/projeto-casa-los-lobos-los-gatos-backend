@@ -1,6 +1,6 @@
 import { IAnimalTagModel } from '@modules/animals/models/IAnimalTagModel.js'
 import { IAnimalTagRepository } from '@modules/animals/repositories/interfaces/IAnimalTagRepository.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()

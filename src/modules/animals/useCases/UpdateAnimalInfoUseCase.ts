@@ -4,7 +4,7 @@ import { IAnimalRepository } from '@modules/animals/repositories/interfaces/IAni
 import { IAnimalTagRepository } from '@modules/animals/repositories/interfaces/IAnimalTagRepository.js'
 import { NotFoundError } from '@shared/errors/index.js'
 import { IStorageProvider } from '@src/shared/container/providers/storage-provider/i-storage-provider.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()
