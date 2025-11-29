@@ -1,5 +1,5 @@
 import { IUserModel } from '@modules/authentication/models/IUserModel.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { ISponsorSearchResult } from '../../dtos/ISponsorDTO.js'
 
 interface ISponsorRepository {

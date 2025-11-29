@@ -1,4 +1,4 @@
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { ICreateUserSessionDTO } from '../dtos/IUserSessionDTO.js'
 import { UserSessionModel } from '../models/IUserSessionModel.js'

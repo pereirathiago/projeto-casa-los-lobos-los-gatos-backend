@@ -1,5 +1,5 @@
 import { IAnimalPhotoModel } from '@modules/animals/models/IAnimalPhotoModel.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 
 interface IAnimalPhotoRepository {
   create(

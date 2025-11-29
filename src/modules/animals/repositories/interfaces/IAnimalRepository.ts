@@ -1,6 +1,6 @@
 import { ICreateAnimalDTO } from '@modules/animals/dtos/IAnimalDTO.js'
 import { IAnimalModel } from '@modules/animals/models/IAnimalModel.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 
 interface IAnimalRepository {
   create(animalData: ICreateAnimalDTO, trx?: Knex.Transaction): Promise<IAnimalModel>

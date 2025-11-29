@@ -1,7 +1,7 @@
 import { ICreateAnimalDTO } from '@modules/animals/dtos/IAnimalDTO.js'
 import { IAnimalModel } from '@modules/animals/models/IAnimalModel.js'
 import { IAnimalRepository } from '@modules/animals/repositories/interfaces/IAnimalRepository.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()

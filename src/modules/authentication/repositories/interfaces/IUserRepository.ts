@@ -1,6 +1,6 @@
 import { IRegisterUserDTO } from '@modules/authentication/dtos/IUserDTO.js'
 import { IUserModel } from '@modules/authentication/models/IUserModel.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 
 interface IUserRepository {
   create(userData: IRegisterUserDTO, trx?: Knex.Transaction): Promise<IUserModel>
