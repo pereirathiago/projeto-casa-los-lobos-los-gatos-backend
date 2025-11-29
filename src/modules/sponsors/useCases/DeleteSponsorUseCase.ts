@@ -1,6 +1,6 @@
 import { IUserRepository } from '@modules/authentication/repositories/interfaces/IUserRepository.js'
 import { ForbiddenError, NotFoundError } from '@shared/errors/index.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { ISponsorRepository } from '../repositories/interfaces/ISponsorRepository.js'
 

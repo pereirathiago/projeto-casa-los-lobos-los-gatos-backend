@@ -1,4 +1,4 @@
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { ICreateSponsorshipDTO, IUpdateSponsorshipDTO } from '../dtos/ISponsorshipDTO.js'
 import {

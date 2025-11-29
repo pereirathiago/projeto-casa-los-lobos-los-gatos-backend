@@ -1,6 +1,6 @@
 import { BadRequestError, ConflictError } from '@shared/errors/index.js'
 import { hash } from 'bcrypt'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { IAdminResponseDTO, ICreateAdminDTO } from '../dtos/IAdminDTO.js'
 import { IUserRepository } from '../repositories/interfaces/IUserRepository.js'

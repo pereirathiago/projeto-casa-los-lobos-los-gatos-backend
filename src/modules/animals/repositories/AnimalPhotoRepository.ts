@@ -1,6 +1,6 @@
 import { IAnimalPhotoModel } from '@modules/animals/models/IAnimalPhotoModel.js'
 import { IAnimalPhotoRepository } from '@modules/animals/repositories/interfaces/IAnimalPhotoRepository.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()

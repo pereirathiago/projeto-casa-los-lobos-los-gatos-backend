@@ -6,7 +6,7 @@ import {
   NotFoundError,
 } from '@shared/errors/index.js'
 import { hash } from 'bcrypt'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 import { ISponsorResponseDTO, IUpdateSponsorDTO } from '../dtos/ISponsorDTO.js'
 import { ISponsorRepository } from '../repositories/interfaces/ISponsorRepository.js'

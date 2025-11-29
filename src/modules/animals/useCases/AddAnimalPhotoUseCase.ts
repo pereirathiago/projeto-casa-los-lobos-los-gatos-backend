@@ -3,7 +3,7 @@ import { IAnimalPhotoRepository } from '@modules/animals/repositories/interfaces
 import { IAnimalRepository } from '@modules/animals/repositories/interfaces/IAnimalRepository.js'
 import { NotFoundError, ValidationError } from '@shared/errors/index.js'
 import { IStorageProvider } from '@src/shared/container/providers/storage-provider/i-storage-provider.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 import { inject, injectable } from 'tsyringe'
 
 interface IAddAnimalPhotoRequest {

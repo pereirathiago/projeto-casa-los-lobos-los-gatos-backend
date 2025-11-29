@@ -1,5 +1,5 @@
 import { IAnimalTagModel } from '@modules/animals/models/IAnimalTagModel.js'
-import { Knex } from 'knex'
+import type { Knex } from 'knex'
 
 interface IAnimalTagRepository {
   create(
