@@ -28,7 +28,7 @@ function getEnvVar(key: string): string {
   const value = process.env[key]
 
   if (!value) {
-    throw new Error(`Environment variable ${key} is required but not defined`)
+    throw new Error(`Variável de ambiente ${key} é obrigatória, mas não está definida`)
   }
 
   return value
@@ -38,12 +38,12 @@ function getEnvVarAsNumber(key: string): number {
   const value = process.env[key]
 
   if (!value) {
-    throw new Error(`Environment variable ${key} is required but not defined`)
+    throw new Error(`Variável de ambiente ${key} é obrigatória, mas não está definida`)
   }
 
   const numValue = Number(value)
   if (isNaN(numValue)) {
-    throw new Error(`Environment variable ${key} must be a valid number`)
+    throw new Error(`Variável de ambiente ${key} deve ser um número válido`)
   }
 
   return numValue

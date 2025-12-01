@@ -14,18 +14,18 @@ class DeleteSponsorUseCase {
 
   async execute(uuid: string, requestingUserUuid: string): Promise<void> {
     if (uuid !== requestingUserUuid) {
-      throw new ForbiddenError()
+      throw new ForbiddenError('Sem permissão para deletar este padrinho')
     }
 
     await this.db.transaction(async (trx) => {
       const sponsorExists = await this.sponsorRepository.findSponsorByUuid(uuid, trx)
 
       if (!sponsorExists) {
-        throw new NotFoundError('Sponsor not found')
+        throw new NotFoundError('Padrinho não encontrado')
       }
 
       if (sponsorExists.deleted) {
-        throw new NotFoundError('Sponsor not found')
+        throw new NotFoundError('Padrinho não encontrado')
       }
 
       await this.userRepository.delete(sponsorExists.id, trx)

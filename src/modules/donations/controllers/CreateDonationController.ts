@@ -17,7 +17,7 @@ class CreateDonationController {
     if (userUuid && userUuid !== authenticatedUser.uuid) {
       // Tentou especificar outro usuário - só admin pode fazer isso
       if (authenticatedUser.role !== 'admin') {
-        throw new ForbiddenError()
+        throw new ForbiddenError('Sem permissão para criar doação a outro usuário')
       }
       targetUserId = userUuid
     } else {

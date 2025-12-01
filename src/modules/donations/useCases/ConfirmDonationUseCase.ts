@@ -15,11 +15,11 @@ export class ConfirmDonationUseCase {
     const donation = await this.donationRepository.findByUuid(uuid)
 
     if (!donation) {
-      throw new AppError('Donation not found', 404)
+      throw new AppError('Doação não encontrada', 404)
     }
 
     if (donation.status === 'confirmed') {
-      throw new AppError('Donation already confirmed', 400)
+      throw new AppError('Doação já confirmada', 400)
     }
 
     const confirmedAt = new Date()

@@ -16,7 +16,7 @@ export class GetDonationUseCase {
     const donation = await this.donationRepository.findByUuidWithDetails(uuid)
 
     if (!donation) {
-      throw new AppError('Donation not found', 404)
+      throw new AppError('Doação não encontrada', 404)
     }
 
     return this.mapToResponseDTO(donation)

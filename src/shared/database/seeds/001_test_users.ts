@@ -37,8 +37,8 @@ export async function seed(knex: Knex): Promise<void> {
     },
   ])
 
-  console.log('Test users created successfully!')
-  console.log('Master Admin: masteradmin@test.com | Password: 123456')
-  console.log('Admin: admin@test.com | Password: admin123')
-  console.log('User: user@test.com | Password: user123')
+  console.log('Usuários de teste criados com sucesso!')
+  console.log('Master Admin: masteradmin@test.com | Senha: 123456')
+  console.log('Admin: admin@test.com | Senha: admin123')
+  console.log('User: user@test.com | Senha: user123')
 }

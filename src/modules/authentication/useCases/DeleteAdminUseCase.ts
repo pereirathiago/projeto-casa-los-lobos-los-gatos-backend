@@ -16,19 +16,19 @@ class DeleteAdminUseCase {
       const adminExists = await this.userRepository.findById(id, trx)
 
       if (!adminExists) {
-        throw new NotFoundError('Admin not found')
+        throw new NotFoundError('Admin não encontrado')
       }
 
       if (adminExists.role !== 'admin') {
-        throw new NotFoundError('Admin not found')
+        throw new NotFoundError('Admin não encontrado')
       }
 
       if (adminExists.deleted) {
-        throw new NotFoundError('Admin not found')
+        throw new NotFoundError('Admin não encontrado')
       }
 
       if (adminExists.is_master) {
-        throw new ForbiddenError()
+        throw new ForbiddenError('Não é possível remover o admin master')
       }
 
       await this.userRepository.delete(id, trx)

@@ -25,24 +25,24 @@ class UpdateSponsorUseCase {
     requestingUserUuid: string,
   ): Promise<ISponsorResponseDTO> {
     if (uuid !== requestingUserUuid) {
-      throw new ForbiddenError()
+      throw new ForbiddenError('Sem permissão para atualizar este padrinho')
     }
 
     const sponsor = await this.db.transaction(async (trx) => {
       const sponsorExists = await this.sponsorRepository.findSponsorByUuid(uuid, trx)
 
       if (!sponsorExists) {
-        throw new NotFoundError('Sponsor not found')
+        throw new NotFoundError('Padrinho não encontrado')
       }
 
       if (sponsorExists.deleted) {
-        throw new NotFoundError('Sponsor not found')
+        throw new NotFoundError('Padrinho não encontrado')
       }
 
       if (data.email && data.email !== sponsorExists.email) {
         const emailExists = await this.userRepository.findByEmail(data.email, trx)
         if (emailExists) {
-          throw new ConflictError('Email already in use!')
+          throw new ConflictError('Email já está em uso!')
         }
       }
 
@@ -54,7 +54,7 @@ class UpdateSponsorUseCase {
 
       if (data.password) {
         if (data.password.length < 6) {
-          throw new BadRequestError('Password must be at least 6 characters long!')
+          throw new BadRequestError('A senha deve ter pelo menos 6 caracteres!')
         }
         updateData.password = await hash(data.password, 8)
       }
