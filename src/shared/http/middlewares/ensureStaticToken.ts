@@ -10,17 +10,17 @@ export async function ensureStaticToken(
   const authHeader = request.headers.authorization
 
   if (!authHeader) {
-    throw new UnauthorizedError('Token missing')
+    throw new UnauthorizedError('Token ausente')
   }
 
   const [, token] = authHeader.split(' ')
 
   if (!token) {
-    throw new UnauthorizedError('Token missing')
+    throw new UnauthorizedError('Token ausente')
   }
 
   if (token !== config.auth.static_api_token) {
-    throw new UnauthorizedError('Invalid token')
+    throw new UnauthorizedError('Token inválido')
   }
 
   next()

@@ -14,7 +14,7 @@ export class DeleteDonationUseCase {
     const donation = await this.donationRepository.findByUuid(uuid)
 
     if (!donation) {
-      throw new AppError('Donation not found', 404)
+      throw new AppError('Doação não encontrada', 404)
     }
 
     await this.donationRepository.softDelete(uuid)

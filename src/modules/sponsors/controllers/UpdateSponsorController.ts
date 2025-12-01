@@ -13,7 +13,7 @@ class UpdateSponsorController {
     const sponsor = await updateSponsorUseCase.execute(requestingUserUuid, data, requestingUserUuid)
 
     return res.status(200).json({
-      message: 'Sponsor updated successfully!',
+      message: 'Padrinho atualizado com sucesso!',
       sponsor,
     })
   }

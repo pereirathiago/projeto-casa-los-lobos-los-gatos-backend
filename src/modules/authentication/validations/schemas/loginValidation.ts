@@ -3,13 +3,13 @@ import { IAuthenticateUserDTO } from '../../dtos/IUserSessionDTO.js'
 
 const loginValidationSchema: Yup.ObjectSchema<IAuthenticateUserDTO> = Yup.object().shape({
   email: Yup.string()
-    .required('Email is required')
-    .email('Invalid email format')
+    .required('Email é obrigatório')
+    .email('Formato de email inválido')
     .lowercase()
     .trim(),
   password: Yup.string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters'),
+    .required('Senha é obrigatória')
+    .min(6, 'A senha deve ter pelo menos 6 caracteres'),
 })
 
 export { loginValidationSchema }

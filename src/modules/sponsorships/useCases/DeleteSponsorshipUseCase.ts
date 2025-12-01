@@ -17,7 +17,7 @@ export class DeleteSponsorshipUseCase {
     const sponsorship = await this.sponsorshipRepository.findByUuid(uuid)
 
     if (!sponsorship) {
-      throw new NotFoundError('Sponsorship not found')
+      throw new NotFoundError('Apadrinhamento não encontrado')
     }
 
     await this.sponsorshipRepository.softDelete(sponsorship.id)

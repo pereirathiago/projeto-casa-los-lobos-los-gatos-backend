@@ -9,11 +9,11 @@ export async function ensureMasterAdmin(
   const user = req.user
 
   if (!user) {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Acesso negado')
   }
 
   if (user.role !== 'admin' || !user.is_master) {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Sem permissão de administrador master')
   }
 
   next()

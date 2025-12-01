@@ -12,7 +12,7 @@ export class RegisterUserController {
     const user = await registerUserUseCase.execute(data)
 
     return res.status(201).json({
-      message: 'User registered successfully!',
+      message: 'Usuário registrado com sucesso!',
       user: user,
     })
   }

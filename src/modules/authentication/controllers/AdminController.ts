@@ -15,7 +15,7 @@ class AdminController {
     const admin = await createAdminUseCase.execute(data)
 
     return res.status(201).json({
-      message: 'Admin created successfully!',
+      message: 'Admin criado com sucesso!',
       admin,
     })
   }
@@ -51,7 +51,7 @@ class AdminController {
     const admin = await updateAdminUseCase.execute(adminId, data)
 
     return res.status(200).json({
-      message: 'Admin updated successfully!',
+      message: 'Admin atualizado com sucesso!',
       admin,
     })
   }
@@ -64,7 +64,7 @@ class AdminController {
     await deleteAdminUseCase.execute(Number(id))
 
     return res.status(200).json({
-      message: 'Admin deleted successfully!',
+      message: 'Admin deletado com sucesso!',
     })
   }
 }

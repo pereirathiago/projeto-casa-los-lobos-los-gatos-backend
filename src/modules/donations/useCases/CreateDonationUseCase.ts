@@ -20,7 +20,7 @@ export class CreateDonationUseCase {
     const user = await this.userRepository.findByUuid(data.userUuid)
 
     if (!user) {
-      throw new NotFoundError('User not found')
+      throw new NotFoundError('Usuário não encontrado')
     }
 
     // Criar doação com o ID interno do usuário

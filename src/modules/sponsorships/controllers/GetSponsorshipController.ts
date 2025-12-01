@@ -8,7 +8,7 @@ export class GetSponsorshipController {
     const { uuid } = request.params
 
     if (!uuid) {
-      return response.status(400).json({ message: 'UUID parameter is required' })
+      return response.status(400).json({ message: 'Parâmetro UUID é obrigatório' })
     }
 
     const getSponsorshipUseCase = container.resolve(GetSponsorshipUseCase)

@@ -11,7 +11,7 @@ class DeleteSponsorController {
     await deleteSponsorUseCase.execute(requestingUserUuid, requestingUserUuid)
 
     return res.status(200).json({
-      message: 'Sponsor deleted successfully!',
+      message: 'Padrinho removido com sucesso!',
     })
   }
 }

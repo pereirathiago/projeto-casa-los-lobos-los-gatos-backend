@@ -8,7 +8,7 @@ export class SearchSponsorsByEmailController {
     const { email } = request.query
 
     if (!email || typeof email !== 'string') {
-      return response.status(400).json({ error: 'Email query parameter is required' })
+      return response.status(400).json({ error: 'O parâmetro de consulta email é obrigatório' })
     }
 
     const searchSponsorsByEmailUseCase = container.resolve(SearchSponsorsByEmailUseCase)

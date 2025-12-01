@@ -18,7 +18,7 @@ export class SearchSponsorsByEmailUseCase {
     const sponsor = await this.sponsorRepository.searchSponsorsByEmail(email)
 
     if (!sponsor) {
-      throw new NotFoundError('Sponsor not found')
+      throw new NotFoundError('Padrinho não encontrado')
     }
 
     return sponsor

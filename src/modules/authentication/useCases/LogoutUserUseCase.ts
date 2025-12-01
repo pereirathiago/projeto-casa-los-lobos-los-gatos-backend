@@ -12,7 +12,7 @@ class LogoutUserUseCase {
 
   async execute(tokenPayload: IAccessTokenPayload): Promise<void> {
     if (!tokenPayload.parent || !tokenPayload.parent.uuid) {
-      throw new AppError('Invalid token: missing parent session', 401)
+      throw new AppError('Token inválido: sessão ausente', 401)
     }
 
     const sessionId = tokenPayload.parent.uuid
@@ -20,7 +20,7 @@ class LogoutUserUseCase {
     const invalidated = await this.userSessionRepository.invalidateById(sessionId)
 
     if (!invalidated) {
-      throw new AppError('Session not found or already logged out', 404)
+      throw new AppError('Sessão não encontrada ou já desconectada', 404)
     }
   }
 }
