@@ -15,18 +15,18 @@ class CreateAdminUseCase {
   async execute(data: ICreateAdminDTO): Promise<IAdminResponseDTO> {
     // Validação de dados de entrada
     if (!data.name || !data.email || !data.password) {
-      throw new BadRequestError('Name, email and password are required!')
+      throw new BadRequestError('Nome, email e senha são obrigatórios!')
     }
 
     // Validação de formato de e-mail
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(data.email)) {
-      throw new BadRequestError('Invalid email format!')
+      throw new BadRequestError('Formato de email inválido!')
     }
 
     // Validação de senha (mínimo 6 caracteres)
     if (data.password.length < 6) {
-      throw new BadRequestError('Password must be at least 6 characters long!')
+      throw new BadRequestError('A senha deve ter pelo menos 6 caracteres!')
     }
 
     const admin = await this.db.transaction(async (trx) => {
@@ -34,7 +34,7 @@ class CreateAdminUseCase {
       const userExists = await this.userRepository.findByEmail(data.email, trx)
 
       if (userExists) {
-        throw new ConflictError('Email already in use!')
+        throw new ConflictError('Este email já está em uso!')
       }
 
       // Hash da senha

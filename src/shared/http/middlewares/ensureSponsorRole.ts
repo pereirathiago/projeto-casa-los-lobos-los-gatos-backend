@@ -9,11 +9,11 @@ async function ensureSponsorRole(
   const user = request.user
 
   if (!user) {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Acesso negado')
   }
 
   if (user.role !== 'sponsor') {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Sem permissão de padrinho')
   }
 
   next()

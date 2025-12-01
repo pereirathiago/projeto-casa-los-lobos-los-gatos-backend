@@ -35,13 +35,13 @@ export function errorHandler(
 
   if (err instanceof TokenExpiredError) {
     return res.status(401).json({
-      message: 'Token expired',
+      message: 'Token expirado',
     })
   }
 
   if (err instanceof JsonWebTokenError) {
     return res.status(401).json({
-      message: 'Invalid token',
+      message: 'Token inválido',
     })
   }
 

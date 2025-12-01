@@ -32,7 +32,7 @@ export class UpdateSponsorshipUseCase {
     const sponsorship = await this.sponsorshipRepository.findByUuid(uuid)
 
     if (!sponsorship) {
-      throw new NotFoundError('Sponsorship not found')
+      throw new NotFoundError('Apadrinhamento não encontrado')
     }
 
     const updateData: IUpdateSponsorshipDTO = {}
@@ -41,7 +41,7 @@ export class UpdateSponsorshipUseCase {
       const animal = await this.animalRepository.findByUuid(animalUuid)
 
       if (!animal) {
-        throw new NotFoundError('Animal not found')
+        throw new NotFoundError('Animal não encontrado')
       }
 
       updateData.animalId = animal.id

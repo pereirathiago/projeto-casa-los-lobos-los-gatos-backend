@@ -14,25 +14,25 @@ export class RegisterUserUseCase {
   async execute({ name, email, password }: IRegisterUserDTO): Promise<IRegisterUserResponse> {
     // Validação de dados de entrada
     if (!name || !email || !password) {
-      throw new AppError('Name, email and password are required!', 400)
+      throw new AppError('Nome, e-mail e senha são obrigatórios!', 400)
     }
 
     // Validação de formato de e-mail
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      throw new AppError('Invalid email format!', 400)
+      throw new AppError('Formato de e-mail inválido!', 400)
     }
 
     // Validação de senha (mínimo 6 caracteres)
     if (password.length < 6) {
-      throw new AppError('Password must be at least 6 characters long!', 400)
+      throw new AppError('A senha deve ter pelo menos 6 caracteres!', 400)
     }
 
     // Verificar se o e-mail já existe
     const userExists = await this.userRepository.findByEmail(email)
 
     if (userExists) {
-      throw new AppError('Email already in use!', 409)
+      throw new AppError('Este e-mail já está em uso!', 409)
     }
 
     // Hash da senha

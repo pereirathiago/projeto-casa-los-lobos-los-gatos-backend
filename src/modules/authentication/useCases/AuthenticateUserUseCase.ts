@@ -24,21 +24,21 @@ class AuthenticateUserUseCase {
     const user = await this.userRepository.findByEmail(email)
 
     if (!user) {
-      throw new UnauthorizedError('Invalid credentials')
+      throw new UnauthorizedError('Credenciais inválidas')
     }
 
     if (!user.active) {
-      throw new UnauthorizedError('Invalid credentials')
+      throw new UnauthorizedError('Credenciais inválidas')
     }
 
     if (user.deleted) {
-      throw new UnauthorizedError('Invalid credentials')
+      throw new UnauthorizedError('Credenciais inválidas')
     }
 
     const passwordMatch = await compare(password, user.password)
 
     if (!passwordMatch) {
-      throw new UnauthorizedError('Invalid credentials')
+      throw new UnauthorizedError('Credenciais inválidas')
     }
 
     const refreshExpiresInSeconds = this.parseExpiresIn(config.auth.expires_in_refreshToken)
@@ -107,7 +107,7 @@ class AuthenticateUserUseCase {
     const match = expiresIn.match(/^(\d+)([mhd])$/)
 
     if (!match) {
-      throw new AppError('Invalid expires_in format in configuration')
+      throw new AppError('Formato inválido para expires_in na configuração')
     }
 
     const value = parseInt(match[1], 10)
@@ -121,7 +121,7 @@ class AuthenticateUserUseCase {
       case 'd':
         return value * 60 * 60 * 24
       default:
-        throw new AppError('Invalid time unit in expires_in configuration')
+        throw new AppError('Formato inválido para expires_in na configuração')
     }
   }
 }

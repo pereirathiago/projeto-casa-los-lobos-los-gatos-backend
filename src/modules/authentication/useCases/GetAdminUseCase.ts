@@ -15,15 +15,15 @@ class GetAdminUseCase {
     const admin = await this.userRepository.findById(id)
 
     if (!admin) {
-      throw new NotFoundError('Admin not found')
+      throw new NotFoundError('Admin não encontrado')
     }
 
     if (admin.role !== 'admin') {
-      throw new NotFoundError('Admin not found')
+      throw new NotFoundError('Admin não encontrado')
     }
 
     if (admin.deleted) {
-      throw new NotFoundError('Admin not found')
+      throw new NotFoundError('Admin não encontrado')
     }
 
     // Retornar dados do admin sem a senha

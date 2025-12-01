@@ -1,10 +1,17 @@
 import * as yup from 'yup'
 
 export const registerUserSchema = yup.object().shape({
-  name: yup.string().required('Name is required').min(3, 'Name must be at least 3 characters long'),
-  email: yup.string().required('Email is required').email('Invalid email format').lowercase(),
+  name: yup
+    .string()
+    .required('Nome é obrigatório')
+    .min(3, 'O nome deve ter pelo menos 3 caracteres'),
+  email: yup
+    .string()
+    .required('Email é obrigatório')
+    .email('Formato de email inválido')
+    .lowercase(),
   password: yup
     .string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters long'),
+    .required('Senha é obrigatória')
+    .min(6, 'A senha deve ter pelo menos 6 caracteres'),
 })

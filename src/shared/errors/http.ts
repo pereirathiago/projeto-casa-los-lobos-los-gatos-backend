@@ -13,8 +13,8 @@ export class UnauthorizedError extends AppError {
 }
 
 export class ForbiddenError extends AppError {
-  constructor() {
-    super('Forbidden', 403)
+  constructor(message: string) {
+    super(message, 403)
   }
 }
 

@@ -13,17 +13,17 @@ class GetSponsorUseCase {
 
   async execute(uuid: string, requestingUserUuid: string): Promise<ISponsorResponseDTO> {
     if (uuid !== requestingUserUuid) {
-      throw new ForbiddenError()
+      throw new ForbiddenError('Sem permissão para acessar este padrinho')
     }
 
     const sponsor = await this.sponsorRepository.findSponsorByUuid(uuid)
 
     if (!sponsor) {
-      throw new NotFoundError('Sponsor not found')
+      throw new NotFoundError('Padrinho não encontrado')
     }
 
     if (sponsor.deleted) {
-      throw new NotFoundError('Sponsor not found')
+      throw new NotFoundError('Padrinho não encontrado')
     }
 
     const { password, id, ...sponsorResponse } = sponsor

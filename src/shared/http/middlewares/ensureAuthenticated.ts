@@ -17,35 +17,35 @@ export async function ensureAuthenticated(
   const { verify } = jwt
 
   if (!authHeader) {
-    throw new UnauthorizedError('Token missing')
+    throw new UnauthorizedError('Token ausente')
   }
 
   const [, token] = authHeader.split(' ')
 
   if (!token) {
-    throw new UnauthorizedError('Token missing')
+    throw new UnauthorizedError('Token ausente')
   }
 
   let payload: IAccessTokenPayload
   try {
     payload = verify(token, config.auth.secret_token) as IAccessTokenPayload
   } catch (error) {
-    throw new UnauthorizedError('Invalid or expired token')
+    throw new UnauthorizedError('Token inválido ou expirado')
   }
 
   const userRepository = container.resolve<IUserRepository>('UserRepository')
   const user = await userRepository.findByUuid(payload.sub)
 
   if (!user) {
-    throw new UnauthorizedError('User not found')
+    throw new UnauthorizedError('Usuário não encontrado')
   }
 
   if (!user.active) {
-    throw new UnauthorizedError('User account is inactive')
+    throw new UnauthorizedError('Conta de usuário inativa')
   }
 
   if (user.deleted) {
-    throw new UnauthorizedError('User account has been deleted')
+    throw new UnauthorizedError('Conta de usuário excluída')
   }
 
   const expectedVersion = createHash('md5')
@@ -53,10 +53,10 @@ export async function ensureAuthenticated(
     .digest('hex')
 
   if (payload.version !== expectedVersion) {
-    throw new UnauthorizedError('Token invalidated (password changed)')
+    throw new UnauthorizedError('Token invalidado (senha alterada)')
   }
   if (!payload.parent || !payload.parent.uuid) {
-    throw new UnauthorizedError('Invalid token: missing parent session')
+    throw new UnauthorizedError('Token inválido: sessão ausente')
   }
 
   const userSessionRepository = container.resolve<IUserSessionRepository>('UserSessionRepository')
@@ -64,11 +64,11 @@ export async function ensureAuthenticated(
   const parentSession = await userSessionRepository.findById(payload.parent.uuid)
 
   if (!parentSession) {
-    throw new UnauthorizedError('Session invalidated or expired (logout)')
+    throw new UnauthorizedError('Sessão invalidada ou expirada (logout)')
   }
 
   if (new Date(parentSession.expires_date) < new Date()) {
-    throw new UnauthorizedError('Session expired')
+    throw new UnauthorizedError('Sessão expirada')
   }
 
   request.user = {

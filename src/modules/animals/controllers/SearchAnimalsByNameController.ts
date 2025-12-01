@@ -8,7 +8,7 @@ export class SearchAnimalsByNameController {
     const { name } = request.query
 
     if (!name || typeof name !== 'string') {
-      return response.status(400).json({ error: 'Name query parameter is required' })
+      return response.status(400).json({ error: 'Parâmetro de consulta "name" é obrigatório' })
     }
     const searchAnimalsByNameUseCase = container.resolve(SearchAnimalsByNameUseCase)
     const animals = await searchAnimalsByNameUseCase.execute({ name })

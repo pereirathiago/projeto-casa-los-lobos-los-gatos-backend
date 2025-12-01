@@ -18,7 +18,7 @@ export class GetSponsorshipUseCase {
     const sponsorship = await this.sponsorshipRepository.findByUuidWithDetails(uuid)
 
     if (!sponsorship) {
-      throw new NotFoundError('Sponsorship not found')
+      throw new NotFoundError('Apadrinhamento não encontrado')
     }
 
     return {

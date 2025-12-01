@@ -29,16 +29,16 @@ export class CreateSponsorshipUseCase {
   }: IRequest): Promise<ISponsorshipResponseDTO> {
     const user = await this.userRepository.findByUuid(userUuid)
     if (!user) {
-      throw new NotFoundError('User not found')
+      throw new NotFoundError('Usuário não encontrado')
     }
 
     if (user.role !== 'sponsor') {
-      throw new BadRequestError('User must be a sponsor')
+      throw new BadRequestError('O usuário deve ser um padrinho')
     }
 
     const animal = await this.animalRepository.findByUuid(animalUuid)
     if (!animal) {
-      throw new NotFoundError('Animal not found')
+      throw new NotFoundError('Animal não encontrado')
     }
 
     const existingSponsorship = await this.sponsorshipRepository.findByUserAndAnimal(
@@ -47,7 +47,7 @@ export class CreateSponsorshipUseCase {
     )
 
     if (existingSponsorship) {
-      throw new BadRequestError('Sponsorship already exists for this user and animal')
+      throw new BadRequestError('Já existe um apadrinhamento para este usuário e animal')
     }
 
     const sponsorship = await this.sponsorshipRepository.create({

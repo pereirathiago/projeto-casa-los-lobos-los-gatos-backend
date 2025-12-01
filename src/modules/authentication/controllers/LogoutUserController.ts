@@ -13,7 +13,7 @@ class LogoutUserController {
     await logoutUserUseCase.execute(tokenPayload)
 
     return response.status(200).json({
-      message: 'User logged out successfully',
+      message: 'Usuário desconectado com sucesso!',
     })
   }
 }

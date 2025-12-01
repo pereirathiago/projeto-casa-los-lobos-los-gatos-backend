@@ -9,15 +9,15 @@ async function ensureAdminRole(
   const user = request.user
 
   if (!user) {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Acesso negado')
   }
 
   if (user.role !== 'admin') {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Sem permissão de administrador')
   }
 
   if (user.deleted === true) {
-    throw new ForbiddenError()
+    throw new ForbiddenError('Sem permissão de administrador')
   }
 
   next()

@@ -24,36 +24,36 @@ class RefreshTokenUseCase {
     try {
       decoded = verify(refreshToken, config.auth.secret_refreshToken)
     } catch (error) {
-      throw new UnauthorizedError('Invalid or expired refresh token')
+      throw new UnauthorizedError('Refresh token inválido ou expirado')
     }
 
     if (decoded.type !== 'refresh') {
-      throw new UnauthorizedError('Invalid token type')
+      throw new UnauthorizedError('Tipo de token inválido')
     }
 
     const session = await this.userSessionRepository.findByRefreshToken(refreshToken)
 
     if (!session) {
-      throw new UnauthorizedError('Session not found or invalidated')
+      throw new UnauthorizedError('Sessão não encontrada ou inválida')
     }
 
     if (!session.is_active) {
-      throw new UnauthorizedError('Session invalidated (logout)')
+      throw new UnauthorizedError('Sessão invalidada (logout)')
     }
 
     if (new Date(session.expires_date) < new Date()) {
-      throw new UnauthorizedError('Session expired')
+      throw new UnauthorizedError('Sessão expirada')
     }
 
     const userUuid = decoded.sub
     const user = await this.userRepository.findByUuid(userUuid)
 
     if (!user) {
-      throw new UnauthorizedError('User not found')
+      throw new UnauthorizedError('Usuário não encontrado')
     }
 
     if (!user.active) {
-      throw new UnauthorizedError('User account is inactive')
+      throw new UnauthorizedError('Conta de usuário inativa')
     }
 
     const passwordVersion = createHash('md5')
@@ -91,7 +91,7 @@ class RefreshTokenUseCase {
     const match = expiresIn.match(/^(\d+)([mhd])$/)
 
     if (!match) {
-      throw new AppError('Invalid expires_in format in configuration')
+      throw new AppError('Formato inválido para expires_in na configuração')
     }
 
     const value = parseInt(match[1], 10)
@@ -105,7 +105,7 @@ class RefreshTokenUseCase {
       case 'd':
         return value * 60 * 60 * 24
       default:
-        throw new AppError('Invalid time unit in expires_in configuration')
+        throw new AppError('Unidade de tempo inválida na configuração expires_in')
     }
   }
 }
