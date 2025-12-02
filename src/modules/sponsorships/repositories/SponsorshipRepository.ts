@@ -152,7 +152,6 @@ export class SponsorshipRepository implements ISponsorshipRepository {
       .leftJoin('animal_tags as at', 'a.id', 'at.animal_id')
       .where('s.user_id', userId)
       .andWhere('s.deleted', false)
-      .andWhere('a.active', true)
       .orderBy('s.created_at', 'desc')
 
     return sponsorships as ISponsorshipWithAnimalDetailsModel[]
@@ -174,5 +173,11 @@ export class SponsorshipRepository implements ISponsorshipRepository {
 
   async softDelete(id: number): Promise<void> {
     await this.db<ISponsorshipModel>('sponsorships').where({ id }).update({ deleted: true })
+  }
+
+  async deactivateByAnimalId(animalId: number): Promise<void> {
+    await this.db<ISponsorshipModel>('sponsorships')
+      .where({ animal_id: animalId, deleted: false })
+      .update({ active: false })
   }
 }
