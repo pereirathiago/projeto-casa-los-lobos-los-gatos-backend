@@ -196,13 +196,17 @@ class DashboardRepository implements IDashboardRepository {
 
     let monthsAsSponsor = 0
     let firstSponsorshipDate = ''
-    if (firstSponsorship) {
-      const now = new Date()
+    if (firstSponsorship?.created_at) {
       const firstDate = new Date(firstSponsorship.created_at)
-      const yearsDiff = now.getFullYear() - firstDate.getFullYear()
-      const monthsDiff = now.getMonth() - firstDate.getMonth()
-      monthsAsSponsor = yearsDiff * 12 + monthsDiff
-      firstSponsorshipDate = firstSponsorship.created_at
+      const now = new Date()
+      monthsAsSponsor =
+        (now.getFullYear() - firstDate.getFullYear()) * 12 + (now.getMonth() - firstDate.getMonth())
+
+      firstSponsorshipDate = firstDate.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
     }
 
     const now = new Date()

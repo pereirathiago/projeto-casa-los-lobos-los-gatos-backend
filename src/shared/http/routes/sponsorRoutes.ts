@@ -6,6 +6,7 @@ import { container } from '@shared/container/index.js'
 import { SponsorDashboardController } from '@src/modules/dashboard/controllers/SponsorDashboardController.js'
 import { CreateDonationController } from '@src/modules/donations/controllers/CreateDonationController.js'
 import { GetDonationsBySponsorController } from '@src/modules/donations/controllers/GetDonationsBySponsorController.js'
+import { GetMyDonationController } from '@src/modules/donations/controllers/GetMyDonationController.js'
 import { validateCreateDonation } from '@src/modules/donations/validations/validateDonation.js'
 import { GetSponsorshipBySponsorController } from '@src/modules/sponsorships/controllers/GetSponsorshipsBySponsor.js'
 import { Router } from 'express'
@@ -20,6 +21,7 @@ const deleteSponsorController = container.resolve(DeleteSponsorController)
 const getSponsorshipBySponsorController = container.resolve(GetSponsorshipBySponsorController)
 const createDonationController = container.resolve(CreateDonationController)
 const getDonationsBySponsorController = container.resolve(GetDonationsBySponsorController)
+const getMyDonationController = container.resolve(GetMyDonationController)
 const sponsorDashboardController = container.resolve(SponsorDashboardController)
 
 router.get('/dashboard', ensureAuthenticated, ensureSponsorRole, (req, res) =>
@@ -48,6 +50,10 @@ router.post(
 )
 router.get('/me/donations', ensureAuthenticated, ensureSponsorRole, (req, res) =>
   getDonationsBySponsorController.handle(req, res),
+)
+
+router.get('/me/donations/:uuid', ensureAuthenticated, ensureSponsorRole, (req, res) =>
+  getMyDonationController.handle(req, res),
 )
 
 export default router

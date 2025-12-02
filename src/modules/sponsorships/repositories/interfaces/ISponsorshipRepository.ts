@@ -17,4 +17,5 @@ export interface ISponsorshipRepository {
   findAllByUserIdWithAnimalDetails(userId: number): Promise<ISponsorshipWithAnimalDetailsModel[]>
   update(id: number, data: IUpdateSponsorshipDTO): Promise<ISponsorshipModel>
   softDelete(id: number): Promise<void>
+  deactivateByAnimalId(animalId: number): Promise<void>
 }
