@@ -195,12 +195,14 @@ class DashboardRepository implements IDashboardRepository {
       .first()
 
     let monthsAsSponsor = 0
+    let firstSponsorshipDate = ''
     if (firstSponsorship) {
       const now = new Date()
       const firstDate = new Date(firstSponsorship.created_at)
       const yearsDiff = now.getFullYear() - firstDate.getFullYear()
       const monthsDiff = now.getMonth() - firstDate.getMonth()
       monthsAsSponsor = yearsDiff * 12 + monthsDiff
+      firstSponsorshipDate = firstSponsorship.created_at
     }
 
     const now = new Date()
@@ -285,6 +287,7 @@ class DashboardRepository implements IDashboardRepository {
         total: Number(donationsGeneral?.total || 0),
       },
       monthsAsSponsor,
+      firstSponsorshipDate,
       donations: {
         general: {
           total: Number(donationsGeneral?.total || 0),
@@ -308,7 +311,7 @@ class DashboardRepository implements IDashboardRepository {
         },
       },
       history: {
-        firstSponsorshipDate: firstSponsorship?.created_at || new Date(),
+        firstSponsorshipDate: firstSponsorshipDate || 'Ainda não é padrinho',
         totalSponsorshipsEver: Number(totalSponsorshipsEver?.total || 0),
       },
     }

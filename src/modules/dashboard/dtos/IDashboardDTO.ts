@@ -79,8 +79,9 @@ interface ISponsorDashboardDTO {
       average: number
     }
   }
+  firstSponsorshipDate: string
   history?: {
-    firstSponsorshipDate: Date
+    firstSponsorshipDate: Date | string
     totalSponsorshipsEver: number
   }
 }
